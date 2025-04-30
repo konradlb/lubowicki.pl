@@ -5,116 +5,154 @@ import ContactCTA from '../components/ContactCTA.astro';
 import Hero from '../components/Hero.astro';
 ---
 
-<BaseLayout title="O mnie | Konrad Lubowicki" description="O mnie Konrad Lubowicki">
-	<div class="stack gap-20">
-		<main class="wrapper about">
-			<Hero
-				title="O mnie"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
-			>
-				<img
-					width="1553"
-					height="873"
-					src="/assets/at-work.jpg"
-					alt="Konrad w pracy"
-				/>
-			</Hero>
+<BaseLayout
+  title="O mnie | Konrad Lubowicki"
+  description="O mnie Konrad Lubowicki"
+>
+  <div class="stack gap-20">
+    <main class="wrapper about">
+      <Hero
+        title="O mnie"
+        tagline="Dziękuję za zainteresowanie! Zapraszam do poznania mnie i mojego doświadczenia."
+      >
+        <!-- <img
+          width="1553"
+          height="873"
+          src="/assets/at-work.jpg"
+          alt="Konrad w pracy"
+        /> -->
+      </Hero>
 
-			<section>
-				<h2 class="section-title">Background</h2>
-				<div class="content">
-					<p>
-						Lorem ipsum dolor sit amet, <a href="https://astro.build/">Astro</a> makes people happy.
-						Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin nibh nisl condimentum
-						id venenatis a condimentum vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla
-						pharetra diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare.
-					</p>
-					<p>
-						Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget gravida cum sociis
-						natoque penatibus. Cras fermentum odio eu feugiat pretium nibh. Proin nibh nisl
-						condimentum id venenatis. Porta nibh venenatis cras sed felis eget velit. Id diam vel
-						quam elementum pulvinar etiam non.
-					</p>
-					<p>
-						Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut sem viverra aliquet
-						eget sit amet. Lacus luctus accumsan tortor posuere ac ut consequat semper viverra.
-						Viverra accumsan in nisl nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl
-						pretium fusce.
-					</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Education</h2>
-				<div class="content">
-					<p>Corporis voluptates tenetur laudantium.</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Skills</h2>
-				<div class="content">
-					<p>officia unde omnis</p>
-				</div>
-			</section>
-		</main>
+      <section>
+        <h2 class="section-title">Kim jestem</h2>
+        <div class="content">
+          <p>
+            Nazywam się Konrad Lubowicki i od lat z pasją łączę świat IT,
+            programowania oraz technologii elektrycznych.
+          </p>
+          <p>
+            Posiadam doświadczenie w programowaniu aplikacji frontendowych
+            opartych o React, HTML i CSS, a także w administracji stronami
+            internetowymi, zarządzaniu domenami oraz pocztą e-mail. Pracowałem
+            przy realizacji projektów dla firm i instytucji, rozwijając zarówno
+            nowe funkcjonalności, jak i usprawniając istniejące rozwiązania.
+          </p>
+          <p>
+            Jednocześnie od ponad 10 lat zajmuję się realizacją instalacji
+            elektrycznych, budową sieci komputerowych, naprawami, pomiarami oraz
+            wdrażaniem automatyki domowej Supla.
+          </p>
+          <p>
+            Dobrze odnajduję się w pracy zarówno przy komputerze, jak i w
+            terenie — systemy Linux i Windows, protokoły sieciowe, zarządzanie
+            infrastrukturą czy prace montażowe nie są mi obce.
+          </p>
+          <p>
+            Prywatnie od zawsze interesuję się elektroniką, nowymi technologiami
+            oraz automatyzacją. W wolnym czasie zdarzało mi się również
+            obsługiwać imprezy okolicznościowe jako DJ, co pozwoliło mi poznać
+            specyfikę pracy ze sprzętem nagłośnieniowym i AV.
+          </p>
+          <p>
+            Stawiam na efektywność, precyzję i rozwiązywanie problemów. Zawsze
+            dążę do tego, aby dostarczać rozwiązania wysokiej jakości, zgodne z
+            oczekiwaniami klientów.
+          </p>
+          <p>
+            Jeśli chcesz dowiedzieć się więcej lub rozpocząć współpracę —
+            zapraszam do kontaktu!
+          </p>
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Wykształcenie</h2>
 
-		<ContactCTA />
-	</div>
+        <div class="content">
+          <p>
+            Ukończyłem studia inżynierskie oraz magisterskie na Politechnice
+            Warszawskiej, na kierunku Elektrotechnika. Specjalizowałem się w
+            zakresie Elektroniki Przemysłowej oraz Automatyki i Informatyki
+            Stosowanej.
+          </p>
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Umiejętności</h2>
+        <div class="content">
+          <p>
+            Posiadam praktyczne doświadczenie w programowaniu aplikacji
+            frontendowych z wykorzystaniem technologii takich jak React, HTML,
+            CSS oraz TypeScript. Zarządzam i administruję stronami internetowymi
+            opartymi na WordPressie, a także konfiguruję domeny i pocztę e-mail.
+          </p>
+          <p>
+            Dobrze znam systemy operacyjne Linux i Windows oraz posiadam
+            podstawową wiedzę na temat protokołów sieciowych i modelu ISO/OSI.
+            Moje umiejętności obejmują również instalacje elektryczne, sieci
+            komputerowe, naprawy, pomiary oraz wdrażanie automatyki domowej.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <ContactCTA />
+  </div>
 </BaseLayout>
 
 <style>
-	.about {
-		display: flex;
-		flex-direction: column;
-		gap: 3.5rem;
-	}
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
 
-	img {
-		margin-top: 1.5rem;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
+  img {
+    margin-top: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
 
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		color: var(--gray-200);
-	}
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--gray-200);
+  }
 
-	.section-title {
-		grid-column-start: 1;
-		font-size: var(--text-xl);
-		color: var(--gray-0);
-	}
+  .section-title {
+    grid-column-start: 1;
+    font-size: var(--text-xl);
+    color: var(--gray-0);
+  }
 
-	.content {
-		grid-column: 2 / 4;
-	}
+  .content {
+    grid-column: 2 / 4;
+  }
 
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
+  .content :global(a) {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
 
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
-	}
+  .content :global(a:hover),
+  .content :global(a:focus) {
+    text-decoration-color: currentColor;
+  }
 
-	@media (min-width: 50em) {
-		.about {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
+  @media (min-width: 50em) {
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
 
-		.about > :global(:first-child) {
-			grid-column-start: 2;
-		}
+    .about > :global(:first-child) {
+      grid-column-start: 2;
+    }
 
-		section {
-			display: contents;
-			font-size: var(--text-lg);
-		}
-	}
+    section {
+      display: contents;
+      font-size: var(--text-lg);
+    }
+  }
 </style>
