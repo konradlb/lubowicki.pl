@@ -1,7 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import TerminalCard from '../components/TerminalCard.astro';
-import { PROJECTS } from '../constants';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+// Sort by date descending
+projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <Layout title="Projekty" pathname="/projects">
@@ -11,7 +15,7 @@ import { PROJECTS } from '../constants';
             <p class="page-subtitle">Rzeczy, które zbudowałem po godzinach.</p>
         </header>
         <div class="grid-list">
-            {PROJECTS.map(post => (
+            {projects.map(post => (
                 <TerminalCard post={post} />
             ))}
         </div>

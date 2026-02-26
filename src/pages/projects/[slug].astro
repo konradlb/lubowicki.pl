@@ -1,0 +1,87 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={entry.data.title.pl}>
+  <main class="main-content">
+    <article class="project-article">
+      <header class="article-header">
+        <a href="/projects" class="back-link">&lt; POWRÓT</a>
+        <h1 class="article-title">{entry.data.title.pl}</h1>
+        <div class="article-meta">
+          <time datetime={entry.data.date}>{entry.data.date}</time>
+          <span class="category">{entry.data.category}</span>
+        </div>
+        <div class="tags">
+          {entry.data.tags.map(tag => <span class="tag">#{tag}</span>)}
+        </div>
+      </header>
+      <hr class="divider" />
+      <div class="article-content">
+        <Content />
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .project-article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) 0;
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--color-matrix);
+    text-decoration: none;
+    margin-bottom: var(--spacing-lg);
+    font-weight: bold;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  .article-title {
+    font-size: 3rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-sm);
+  }
+  .article-meta {
+    color: var(--color-gray);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-md);
+  }
+  .tags {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+  .tag {
+    color: var(--color-dim);
+    font-size: 0.9rem;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--color-dim);
+    margin: var(--spacing-xl) 0;
+  }
+  .article-content {
+    line-height: 1.6;
+    color: var(--color-light);
+  }
+  /* Style for Markdown content */
+  .article-content :global(h2) { color: var(--color-matrix); margin-top: 2rem; }
+  .article-content :global(p) { margin-bottom: 1.2rem; }
+</style>
