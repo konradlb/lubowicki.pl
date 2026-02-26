@@ -2,55 +2,40 @@
 import type { HTMLAttributes } from 'astro/types';
 import { iconPaths } from './IconPaths';
 
-interface Props {
-	icon: keyof typeof iconPaths;
-	color?: string;
-	gradient?: boolean;
-	size?: string;
+interface Props extends HTMLAttributes<'svg'> {
+	name: keyof typeof iconPaths;
+	size?: number | string; // Default to 24, but allow different sizes
 }
 
-const { color = 'currentcolor', gradient, icon, size } = Astro.props;
-const iconPath = iconPaths[icon];
+const { name, size = 24, class: className, ...rest } = Astro.props;
+const iconPath = iconPaths[name];
 
-const attrs: HTMLAttributes<'svg'> = {};
-if (size) attrs.style = { '--size': size };
+// Ensure SVG attributes match the requirements
+const defaultAttrs = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2",
+    "aria-hidden": "true",
+};
 
-const gradientId = 'icon-gradient-' + Math.round(Math.random() * 10e12).toString(36);
+// Merge provided attributes with defaults
+const svgAttrs = {
+    ...defaultAttrs,
+    ...rest,
+    width: size,
+    height: size,
+    class: className,
+};
 ---
 
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	width="40"
-	height="40"
-	viewBox="0 0 256 256"
-	aria-hidden="true"
-	stroke={gradient ? `url(#${gradientId})` : color}
-	fill={gradient ? `url(#${gradientId})` : color}
-	{...attrs}
->
-	<g set:html={iconPath} />
-	{
-		gradient && (
-			<linearGradient
-				id={gradientId}
-				x1="23"
-				x2="235"
-				y1="43"
-				y2="202"
-				gradientUnits="userSpaceOnUse"
-			>
-				<stop stop-color="var(--gradient-stop-1)" />
-				<stop offset=".5" stop-color="var(--gradient-stop-2)" />
-				<stop offset="1" stop-color="var(--gradient-stop-3)" />
-			</linearGradient>
-		)
-	}
+<svg {...svgAttrs}>
+  <Fragment set:html={iconPath} />
 </svg>
 
 <style>
-	svg {
-		vertical-align: middle;
-		width: var(--size, 1em);
-		height: var(--size, 1em);
-	}
+  svg {
+    vertical-align: middle;
+    /* Optional: further styling if needed, but primary sizing handled by width/height props */
+  }
 </style>
