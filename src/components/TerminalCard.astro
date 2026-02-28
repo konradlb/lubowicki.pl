@@ -1,0 +1,170 @@
+---
+import type { Post } from '../types';
+import Icon from './Icon.astro';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+
+const formattedDate = new Date(post.data.date).toLocaleDateString('pl-PL', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const readTime = Math.ceil(post.data.excerpt.pl.length / 200); // Estimate read time based on excerpt length
+---
+
+<a href={`/projects/${post.slug}`} class="terminal-card">
+  <div class="card-glitch-bg"></div>
+  
+  <div class="card-meta">
+    <span class="date">
+      <Icon name="calendar" size="14" /> {formattedDate}
+    </span>
+    <span class="read-time">
+      <Icon name="clock" size="14" /> {readTime} min czytania
+    </span>
+  </div>
+
+  <h2 class="card-title">{post.data.title.pl}</h2>
+  
+  <p class="card-excerpt">{post.data.excerpt.pl}</p>
+  
+  <div class="card-footer">
+    <div class="tags">
+      {post.data.tags.map(tag => (
+        <span class="tag">
+          <Icon name="tag" size="14" /> {tag}
+        </span>
+      ))}
+    </div>
+    <div class="read-more">
+      Czytaj dalej <Icon name="arrowRight" size="16" />
+    </div>
+  </div>
+</a>
+
+<style>
+  .terminal-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-dim);
+    border-radius: 4px;
+    background-color: var(--color-bg-dim);
+    color: var(--color-light);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    gap: var(--spacing-sm);
+  }
+
+  .terminal-card:hover {
+    border-color: var(--color-matrix);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 255, 65, 0.2);
+  }
+
+  .card-glitch-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-matrix);
+    opacity: 0.1;
+    z-index: 0;
+    transition: transform 0.3s ease-out;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .terminal-card:hover .card-glitch-bg {
+    transform: scaleX(1);
+  }
+
+  .card-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.75rem;
+    color: var(--color-dim);
+    font-family: var(--font-mono);
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .card-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    color: var(--color-matrix);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    transition: color 0.2s ease;
+  }
+
+  .terminal-card:hover .card-title {
+    color: var(--color-white);
+  }
+
+  .card-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--color-gray);
+    position: relative;
+    z-index: 1;
+    border-left: 2px solid var(--color-dim);
+    padding-left: var(--spacing-md);
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-dark);
+    color: var(--color-dim);
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    border: 1px solid var(--color-dim);
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: bold;
+    color: var(--color-matrix);
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  .terminal-card:hover .read-more {
+    transform: translateX(5px);
+  }
+</style>

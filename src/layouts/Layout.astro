@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro'; // Import the Astro Nav component
+
+interface Props {
+	title?: string;
+}
+
+const { title = 'MatrixTerm Blog' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<!-- Fira Code Google Font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+	</head>
+	<body class="scanlines">
+        <Nav pathname={Astro.url.pathname} /> {/* Add the Astro Nav component here */}
+		<slot />
+	</body>
+</html>
+
+<style>
+	:global(body) {
+		position: relative;
+		min-height: 100vh;
+        /* Add padding to body to prevent content from being hidden behind fixed navbar */
+        padding-top: var(--header-height);
+	}
+</style>

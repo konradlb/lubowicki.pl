@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+// Sort by date descending
+projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<Layout title="Projekty" pathname="/projects">
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">./projects</h1>
+            <p class="page-subtitle">Rzeczy, które zbudowałem po godzinach.</p>
+        </header>
+        <div class="grid-list">
+            {projects.map(post => (
+                <TerminalCard post={post} />
+            ))}
+        </div>
+    </main>
+</Layout>
+
+<style>
+    .page-header {
+        margin-bottom: var(--spacing-xl);
+    }
+    .page-title {
+        font-size: 3rem;
+        color: var(--color-matrix);
+        margin-bottom: var(--spacing-sm);
+    }
+    .page-subtitle {
+        font-size: 1.2rem;
+        color: var(--color-light);
+    }
+    .grid-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        max-width: 900px;
+        margin: 0 auto;
+    }
+</style>

@@ -1,120 +1,110 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-
-import ContactCTA from '../components/ContactCTA.astro';
-import Hero from '../components/Hero.astro';
+import Layout from '../layouts/Layout.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
 ---
 
-<BaseLayout title="O mnie | Konrad Lubowicki" description="O mnie Konrad Lubowicki">
-	<div class="stack gap-20">
-		<main class="wrapper about">
-			<Hero
-				title="O mnie"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
-			>
-				<img
-					width="1553"
-					height="873"
-					src="/assets/at-work.jpg"
-					alt="Konrad w pracy"
-				/>
-			</Hero>
+<Layout title="whoami" pathname="/about">
+  <main class="main-content animate-fadeIn">
+    <header class="page-header">
+      <h1 class="page-title">whoami</h1>
+      <p class="page-subtitle">Inicjalizacja profilu użytkownika...</p>
+    </header>
 
-			<section>
-				<h2 class="section-title">Background</h2>
-				<div class="content">
-					<p>
-						Lorem ipsum dolor sit amet, <a href="https://astro.build/">Astro</a> makes people happy.
-						Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin nibh nisl condimentum
-						id venenatis a condimentum vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla
-						pharetra diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare.
-					</p>
-					<p>
-						Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget gravida cum sociis
-						natoque penatibus. Cras fermentum odio eu feugiat pretium nibh. Proin nibh nisl
-						condimentum id venenatis. Porta nibh venenatis cras sed felis eget velit. Id diam vel
-						quam elementum pulvinar etiam non.
-					</p>
-					<p>
-						Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut sem viverra aliquet
-						eget sit amet. Lacus luctus accumsan tortor posuere ac ut consequat semper viverra.
-						Viverra accumsan in nisl nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl
-						pretium fusce.
-					</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Education</h2>
-				<div class="content">
-					<p>Corporis voluptates tenetur laudantium.</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Skills</h2>
-				<div class="content">
-					<p>officia unde omnis</p>
-				</div>
-			</section>
-		</main>
+    <TerminalFrame title="profile.sh — 80x24" class="max-w-900">
+      <div class="terminal-body-content">
+        <div class="terminal-line">
+          <span class="prompt">dev@matrix:~$</span> <span class="command">cat user_profile.md</span>
+        </div>
+        
+        <div class="profile-content">
+          <h2 class="matrix-text">Cześć, jestem Konrad.</h2>
+          
+          <p>Pasjonat technologii, systemów Linux oraz szeroko pojętej automatyki. Moja praca i hobby to ciągłe balansowanie między czystym kodem a fizyczną infrastrukturą sieciową.</p>
 
-		<ContactCTA />
-	</div>
-</BaseLayout>
+          <h3 class="matrix-text">Co robię?</h3>
+          <ul>
+            <li><strong>Hardware & Networking:</strong> Zarządzam rozbudowanym Home Labem opartym na serwerach SuperMicro oraz urządzeniach Mikrotik (L009, AX2, AX S). Sieci to dla mnie nie tylko połączenia, ale architektura, którą stale optymalizuję.</li>
+            <li><strong>Automatyka:</strong> Tworzę inteligentne rozwiązania domowe oparte o system SUPLA, integrując elektronikę z codzienną wygodą.</li>
+            <li><strong>Software:</strong> Na co dzień korzystam z Linux Mint, a moje narzędzia pracy to VS Code, Docker i Git. Buduję projekty, które są szybkie, proste i funkcjonalne – dokładnie tak jak ta strona.</li>
+          </ul>
+
+          <h3 class="matrix-text">Filozofia pracy</h3>
+          <p>Wierzę w podejście <em>"Vanilla First"</em> – zarówno w kodzie, jak i w życiu. Cenię proste, niezawodne rozwiązania, które dają pełną kontrolę nad systemem. Moje portfolio to zapis drogi od prostych skryptów po złożone systemy automatyki domowej.</p>
+        </div>
+
+        <div class="terminal-line">
+          <span class="prompt">dev@matrix:~$</span> <span class="cursor">█</span>
+        </div>
+      </div>
+    </TerminalFrame>
+  </main>
+</Layout>
 
 <style>
-	.about {
-		display: flex;
-		flex-direction: column;
-		gap: 3.5rem;
-	}
+  .page-header {
+    margin-bottom: var(--spacing-xl);
+  }
+  .page-title {
+    font-size: 3rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-sm);
+  }
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light);
+  }
 
-	img {
-		margin-top: 1.5rem;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
+  .max-w-900 {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		color: var(--gray-200);
-	}
+  .terminal-line {
+    margin-bottom: var(--spacing-md);
+  }
 
-	.section-title {
-		grid-column-start: 1;
-		font-size: var(--text-xl);
-		color: var(--gray-0);
-	}
+  .prompt {
+    color: var(--color-matrix);
+    font-weight: bold;
+  }
 
-	.content {
-		grid-column: 2 / 4;
-	}
+  .command {
+    color: var(--color-white);
+  }
 
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
+  .matrix-text {
+    color: var(--color-matrix);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    padding-bottom: 4px;
+    margin-top: var(--spacing-lg);
+    font-size: 1.4rem;
+  }
 
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
-	}
+  .profile-content ul {
+    list-style: none;
+    padding: 0;
+  }
 
-	@media (min-width: 50em) {
-		.about {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
+  .profile-content li {
+    margin-bottom: var(--spacing-md);
+    padding-left: 1.5rem;
+    position: relative;
+  }
 
-		.about > :global(:first-child) {
-			grid-column-start: 2;
-		}
+  .profile-content li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--color-matrix);
+  }
 
-		section {
-			display: contents;
-			font-size: var(--text-lg);
-		}
-	}
+  .cursor {
+    animation: blink 1s infinite;
+    color: var(--color-matrix);
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 </style>
