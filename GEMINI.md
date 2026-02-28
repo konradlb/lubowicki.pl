@@ -8,6 +8,7 @@ Strona osobista/blog o estetyce terminalowej ("MatrixTerm"), zbudowana w oparciu
 ## Stos Technologiczny
 - **Framework:** Astro 5.x
 - **Język:** TypeScript
+- **Zarządzanie treścią:** Astro Content Collections (pliki `.md` w `src/content/`)
 - **Style:** Vanilla CSS (preferowane nad bibliotekami typu Tailwind)
 - **Czcionki:** Fira Code (Google Fonts)
 
@@ -24,4 +25,6 @@ Strona osobista/blog o estetyce terminalowej ("MatrixTerm"), zbudowana w oparciu
 
 ## Wytyczne Rozwoju
 - Każda nowa podstrona powinna korzystać z `Layout.astro`.
+- Treści projektów dodajemy jako pliki Markdown w `src/content/projects/`.
+- **Layout list:** Listy projektów/wpisów powinny być wyświetlane w jednej, szerokiej kolumnie (max-width ok. 900px), a nie w formie wielokolumnowej siatki.
 - Przy wprowadzaniu zmian w stylach należy upewnić się, że nie zaburzają one efektów tła i czytelności na urządzeniach mobilnych.
