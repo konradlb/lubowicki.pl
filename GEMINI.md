@@ -14,6 +14,7 @@ Strona osobista/blog o estetyce terminalowej ("MatrixTerm"), zbudowana w oparciu
 
 ## Standardy Kodowania
 - **Język:** UI w języku polskim (`lang="pl"`), nazewnictwo zmiennych, komentarze i dokumentacja w języku angielskim.
+- **Git:** Wiadomości commitów (commit messages) muszą być pisane w czasie przeszłym (np. `added feature`, `fixed bug`), aby zachować spójność z istniejącą historią projektu.
 - **Stylistyka:** Utrzymanie efektów wizualnych typu "scanlines", terminalowych ramek i typografii monospace.
 - **Komponenty:** Wykorzystanie natywnych komponentów Astro (`.astro`).
 - **CSS:** Wykorzystanie zmiennych CSS (np. `--header-height`) dla spójności layoutu.
