@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
 
 const hardware = [
   { category: 'Stacja robocza', items: ['Laptop MSI GL65', '32GB DDR4-SDRAM', 'Intel Core i7-10750H', 'GeForce GTX 1660 Ti Mobile'] },
@@ -23,8 +24,7 @@ const software = [
     </header>
 
     <div class="uses-container">
-      <section class="uses-section">
-        <h2 class="section-title"><span class="text-matrix">></span> Hardware</h2>
+      <TerminalFrame title="hardware.log">
         <div class="uses-grid">
           {hardware.map(group => (
             <div class="uses-card">
@@ -37,10 +37,9 @@ const software = [
             </div>
           ))}
         </div>
-      </section>
+      </TerminalFrame>
 
-      <section class="uses-section">
-        <h2 class="section-title"><span class="text-matrix">></span> Software</h2>
+      <TerminalFrame title="software.log">
         <div class="uses-grid">
           {software.map(group => (
             <div class="uses-card">
@@ -53,7 +52,7 @@ const software = [
             </div>
           ))}
         </div>
-      </section>
+      </TerminalFrame>
     </div>
   </main>
 </Layout>
@@ -75,17 +74,6 @@ const software = [
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xl);
-  }
-  .uses-section {
-    border: 1px solid var(--color-dim);
-    padding: var(--spacing-lg);
-    background: rgba(0, 255, 65, 0.02);
-  }
-  .section-title {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-lg);
-    border-bottom: 1px solid var(--color-dim);
-    padding-bottom: var(--spacing-xs);
   }
   .uses-grid {
     display: flex;

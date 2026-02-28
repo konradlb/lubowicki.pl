@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TerminalFrame from '../components/TerminalFrame.astro';
 ---
 
 <Layout title="whoami" pathname="/about">
@@ -9,15 +10,8 @@ import Layout from '../layouts/Layout.astro';
       <p class="page-subtitle">Inicjalizacja profilu użytkownika...</p>
     </header>
 
-    <div class="terminal-container">
-      <div class="terminal-header">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-        <span class="terminal-title">profile.sh — 80x24</span>
-      </div>
-      
-      <div class="terminal-body">
+    <TerminalFrame title="profile.sh — 80x24" class="max-w-900">
+      <div class="terminal-body-content">
         <div class="terminal-line">
           <span class="prompt">dev@matrix:~$</span> <span class="command">cat user_profile.md</span>
         </div>
@@ -42,7 +36,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="prompt">dev@matrix:~$</span> <span class="cursor">█</span>
         </div>
       </div>
-    </div>
+    </TerminalFrame>
   </main>
 </Layout>
 
@@ -60,47 +54,9 @@ import Layout from '../layouts/Layout.astro';
     color: var(--color-light);
   }
 
-  /* Terminal Styling */
-  .terminal-container {
-    border: 1px solid var(--color-dim);
-    border-radius: 6px;
-    overflow: hidden;
-    background-color: rgba(0, 20, 0, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  .max-w-900 {
     max-width: 900px;
     margin: 0 auto;
-  }
-
-  .terminal-header {
-    background-color: var(--color-dark);
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--color-dim);
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
-  .red { background-color: #ff5f56; }
-  .yellow { background-color: #ffbd2e; }
-  .green { background-color: #27c93f; }
-
-  .terminal-title {
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.8rem;
-    color: var(--color-dim);
-  }
-
-  .terminal-body {
-    padding: var(--spacing-lg);
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-light);
   }
 
   .terminal-line {
