@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const hardware = [
+  { category: 'Stacja robocza', items: ['Laptop MSI GL65', '32GB DDR4-SDRAM', 'Intel Core i7-10750H', 'GeForce GTX 1660 Ti Mobile'] },
+  { category: 'Home Lab', items: ['Serwer SuperMicro', 'Raspberry Pi 1', 'Raspberry PiZero 2W','Raspberry Pi 3B x2', 'HT T620 x4'] },
+  { category: 'Sieć', items: ['Mikrotik L009', 'Mikrotik AX2', 'Mikrotik AX S', 'Mikrotik AC2','Mikrotik 951G x2'] },
+  { category: 'Audio', items: ['Słuchawki zamknięte', 'Głoścniki 2.1 Microlab'] }
+];
+
+const software = [
+  { category: 'System operacyjny', items: ['Linux Mint', 'Windows 10'] },
+  { category: 'Edytor & Terminal', items: ['VS Code', 'Zsh + Oh My Zsh'] },
+  { category: 'Narzędzia', items: ['Docker', 'Git', 'Postman', 'OBS Studio'] }
+];
+---
+
+<Layout title="Uses" pathname="/uses">
+  <main class="main-content animate-fadeIn">
+    <header class="page-header">
+      <h1 class="page-title">./uses</h1>
+      <p class="page-subtitle">Sprzęt i oprogramowanie, którego używam na co dzień.</p>
+    </header>
+
+    <div class="uses-container">
+      <section class="uses-section">
+        <h2 class="section-title"><span class="text-matrix">></span> Hardware</h2>
+        <div class="uses-grid">
+          {hardware.map(group => (
+            <div class="uses-card">
+              <h3 class="group-title">{group.category}</h3>
+              <ul class="items-list">
+                {group.items.map(item => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="uses-section">
+        <h2 class="section-title"><span class="text-matrix">></span> Software</h2>
+        <div class="uses-grid">
+          {software.map(group => (
+            <div class="uses-card">
+              <h3 class="group-title">{group.category}</h3>
+              <ul class="items-list">
+                {group.items.map(item => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--spacing-xl);
+  }
+  .page-title {
+    font-size: 3rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-sm);
+  }
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light);
+  }
+  .uses-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+  .uses-section {
+    border: 1px solid var(--color-dim);
+    padding: var(--spacing-lg);
+    background: rgba(0, 255, 65, 0.02);
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-dim);
+    padding-bottom: var(--spacing-xs);
+  }
+  .uses-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+  .group-title {
+    color: var(--color-matrix);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-sm);
+  }
+  .items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .items-list li {
+    padding: 0.2rem 0;
+    color: var(--color-light);
+  }
+  .items-list li::before {
+    content: "- ";
+    color: var(--color-dim);
+  }
+</style>
