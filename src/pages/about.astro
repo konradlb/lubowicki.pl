@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="whoami" pathname="/about">
+  <main class="main-content animate-fadeIn">
+    <header class="page-header">
+      <h1 class="page-title">whoami</h1>
+      <p class="page-subtitle">Inicjalizacja profilu użytkownika...</p>
+    </header>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">profile.sh — 80x24</span>
+      </div>
+      
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="prompt">dev@matrix:~$</span> <span class="command">cat user_profile.md</span>
+        </div>
+        
+        <div class="profile-content">
+          <h2 class="matrix-text">Cześć, jestem Konrad.</h2>
+          
+          <p>Pasjonat technologii, systemów Linux oraz szeroko pojętej automatyki. Moja praca i hobby to ciągłe balansowanie między czystym kodem a fizyczną infrastrukturą sieciową.</p>
+
+          <h3 class="matrix-text">Co robię?</h3>
+          <ul>
+            <li><strong>Hardware & Networking:</strong> Zarządzam rozbudowanym Home Labem opartym na serwerach SuperMicro oraz urządzeniach Mikrotik (L009, AX2, AX S). Sieci to dla mnie nie tylko połączenia, ale architektura, którą stale optymalizuję.</li>
+            <li><strong>Automatyka:</strong> Tworzę inteligentne rozwiązania domowe oparte o system SUPLA, integrując elektronikę z codzienną wygodą.</li>
+            <li><strong>Software:</strong> Na co dzień korzystam z Linux Mint, a moje narzędzia pracy to VS Code, Docker i Git. Buduję projekty, które są szybkie, proste i funkcjonalne – dokładnie tak jak ta strona.</li>
+          </ul>
+
+          <h3 class="matrix-text">Filozofia pracy</h3>
+          <p>Wierzę w podejście <em>"Vanilla First"</em> – zarówno w kodzie, jak i w życiu. Cenię proste, niezawodne rozwiązania, które dają pełną kontrolę nad systemem. Moje portfolio to zapis drogi od prostych skryptów po złożone systemy automatyki domowej.</p>
+        </div>
+
+        <div class="terminal-line">
+          <span class="prompt">dev@matrix:~$</span> <span class="cursor">█</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--spacing-xl);
+  }
+  .page-title {
+    font-size: 3rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-sm);
+  }
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light);
+  }
+
+  /* Terminal Styling */
+  .terminal-container {
+    border: 1px solid var(--color-dim);
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: rgba(0, 20, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .terminal-header {
+    background-color: var(--color-dark);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-dim);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  .red { background-color: #ff5f56; }
+  .yellow { background-color: #ffbd2e; }
+  .green { background-color: #27c93f; }
+
+  .terminal-title {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.8rem;
+    color: var(--color-dim);
+  }
+
+  .terminal-body {
+    padding: var(--spacing-lg);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-light);
+  }
+
+  .terminal-line {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .prompt {
+    color: var(--color-matrix);
+    font-weight: bold;
+  }
+
+  .command {
+    color: var(--color-white);
+  }
+
+  .matrix-text {
+    color: var(--color-matrix);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    padding-bottom: 4px;
+    margin-top: var(--spacing-lg);
+    font-size: 1.4rem;
+  }
+
+  .profile-content ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .profile-content li {
+    margin-bottom: var(--spacing-md);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .profile-content li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--color-matrix);
+  }
+
+  .cursor {
+    animation: blink 1s infinite;
+    color: var(--color-matrix);
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
