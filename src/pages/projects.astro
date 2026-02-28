@@ -36,8 +36,10 @@ projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).
         color: var(--color-light);
     }
     .grid-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: var(--spacing-lg);
+        max-width: 900px;
+        margin: 0 auto;
     }
 </style>
