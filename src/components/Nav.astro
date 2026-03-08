@@ -30,7 +30,7 @@ const isActive = (path: string) => {
             <div class="logo-box">
               <span class="logo-cursor" />
             </div>
-            <span class="logo-text">dev@matrix:~$</span>
+            <span class="logo-text">root@lubowicki.pl:~$</span>
         </a>
 
         {/* Desktop Menu */}
@@ -89,16 +89,11 @@ const isActive = (path: string) => {
 <style>
     /* Use the same styles as in the React component, ensuring global CSS variables are used */
     .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 50;
-        background-color: var(--color-bg-dim);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+        background-color: var(--color-bg);
         border-bottom: 1px solid var(--color-dim);
         height: var(--header-height);
+        z-index: 50;
+        position: relative;
     }
 
     .navbar-container {
