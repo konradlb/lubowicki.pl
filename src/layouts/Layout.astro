@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Nav from '../components/Nav.astro'; // Import the Astro Nav component
+import Footer from '../components/Footer.astro';
 
 interface Props {
 	title?: string;
@@ -25,6 +26,7 @@ const { title = 'MatrixTerm Blog' } = Astro.props;
 	<body class="scanlines">
         <Nav pathname={Astro.url.pathname} /> {/* Add the Astro Nav component here */}
 		<slot />
+        <Footer />
 	</body>
 </html>
 
@@ -32,5 +34,10 @@ const { title = 'MatrixTerm Blog' } = Astro.props;
 	:global(body) {
 		position: relative;
 		min-height: 100vh;
+        display: flex;
+        flex-direction: column;
 	}
+    :global(main) {
+        flex: 1;
+    }
 </style>
