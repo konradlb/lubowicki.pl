@@ -4,9 +4,10 @@ import Icon from './Icon.astro';
 
 interface Props {
   post: Post;
+  collection?: 'projects' | 'blog';
 }
 
-const { post } = Astro.props;
+const { post, collection = 'projects' } = Astro.props;
 
 const formattedDate = new Date(post.data.date).toLocaleDateString('pl-PL', {
   year: 'numeric',
@@ -17,7 +18,7 @@ const formattedDate = new Date(post.data.date).toLocaleDateString('pl-PL', {
 const readTime = Math.ceil(post.data.excerpt.pl.length / 200); // Estimate read time based on excerpt length
 ---
 
-<a href={`/projects/${post.slug}`} class="terminal-card">
+<a href={`/${collection}/${post.slug}`} class="terminal-card">
   <div class="card-glitch-bg"></div>
   
   <div class="card-meta">

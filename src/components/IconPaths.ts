@@ -14,5 +14,6 @@ export const iconPaths = {
   linkedin: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" fill="none" stroke-width="2" /><rect x="2" y="9" width="4" height="12" stroke="currentColor" fill="none" stroke-width="2" /><circle cx="4" cy="4" r="2" stroke="currentColor" fill="none" stroke-width="2" />',
   mail: '<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" stroke="currentColor" fill="none" stroke-width="2" /><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" fill="none" stroke-width="2" />',
   rss: '<path d="M4 11a9 9 0 0 1 9 9" stroke="currentColor" fill="none" stroke-width="2" /><path d="M4 4a16 16 0 0 1 16 16" stroke="currentColor" fill="none" stroke-width="2" /><circle cx="5" cy="19" r="1" stroke="currentColor" fill="none" stroke-width="2" />',
+  book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" fill="none" stroke-width="2" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" fill="none" stroke-width="2" />',
   externalLink: '<path d="M15 3h6v6" stroke="currentColor" fill="none" stroke-width="2" /><path d="M10 14 21 3" stroke="currentColor" fill="none" stroke-width="2" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" fill="none" stroke-width="2" />'
 };
