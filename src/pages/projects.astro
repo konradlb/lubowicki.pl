@@ -8,10 +8,10 @@ const projects = await getCollection('projects');
 projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<Layout title="Projekty" pathname="/projects">
+<Layout title="Projekty" pathname="/projekty">
     <main class="main-content">
         <header class="page-header">
-            <h1 class="page-title">./projects</h1>
+            <h1 class="page-title">./projekty</h1>
             <p class="page-subtitle">Rzeczy, które zbudowałem po godzinach.</p>
         </header>
         <div class="grid-list">

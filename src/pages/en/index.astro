@@ -1,6 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import TerminalCard from '../components/TerminalCard.astro';
+import Layout from '../../layouts/Layout.astro';
+import TerminalCard from '../../components/TerminalCard.astro';
 import { getCollection } from 'astro:content';
 
 const blogPosts = await getCollection('blog');
@@ -15,11 +15,11 @@ const latestPosts = blogPosts.slice(0, 3);
 const latestProjects = projects.slice(0, 3);
 ---
 
-<Layout title="Lubowicki.pl">
+<Layout title="Lubwicki.pl">
   <main class="main-content">
     <section class="hero">
       <h1 class="glitch" data-text="LUBOWICKI.PL">LUBOWICKI.PL</h1>
-      <p class="subtitle">Inżynier elektryk, automatyk, pasjonat rozwiązań IoT i sieci</p>
+      <p class="subtitle">Electrical engineer, automation specialist, IoT and network enthusiast</p>
     </section>
 
     <section class="section">
@@ -30,7 +30,7 @@ const latestProjects = projects.slice(0, 3);
         ))}
       </div>
       <div class="actions">
-        <a href="/blog" class="btn-link">Zobacz wszystkie wpisy <span class="arrow">→</span></a>
+        <a href="/en/blog" class="btn-link">See all posts <span class="arrow">→</span></a>
       </div>
     </section>
 
@@ -42,7 +42,7 @@ const latestProjects = projects.slice(0, 3);
         ))}
       </div>
       <div class="actions">
-        <a href="/projects" class="btn-link">Zobacz wszystkie projekty <span class="arrow">→</span></a>
+        <a href="/en/projects" class="btn-link">See all projects <span class="arrow">→</span></a>
       </div>
     </section>
   </main>

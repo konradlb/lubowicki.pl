@@ -8,5 +8,12 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare({
     imageService: 'compile'
-  })
+  }),
+  i18n: {
+    defaultLocale: 'pl',
+    locales: ['pl', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  }
 });
