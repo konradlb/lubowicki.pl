@@ -2,6 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import TerminalCard from '../../components/TerminalCard.astro';
 import { getCollection } from 'astro:content';
+import { getI18nPaths } from '../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+export function getStaticPaths() {
+  return getI18nPaths();
+}
+
+const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'pl';
 
 const blogPosts = await getCollection('blog');
 const projects = await getCollection('projects');
@@ -13,36 +21,55 @@ projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).
 // Take only latest 3 of each for homepage
 const latestPosts = blogPosts.slice(0, 3);
 const latestProjects = projects.slice(0, 3);
+
+const translations = {
+  pl: {
+    subtitle: 'Inżynier elektryk, automatyk, pasjonat rozwiązań IoT i sieci',
+    blogTitle: './blog',
+    blogAction: 'Zobacz wszystkie wpisy',
+    projectsTitle: './projekty',
+    projectsAction: 'Zobacz wszystkie projekty',
+  },
+  en: {
+    subtitle: 'Electrical engineer, automation specialist, IoT and network enthusiast',
+    blogTitle: './blog',
+    blogAction: 'See all posts',
+    projectsTitle: './projects',
+    projectsAction: 'See all projects',
+  }
+};
+
+const t = translations[currentLocale];
 ---
 
-<Layout title="Lubwicki.pl">
+<Layout title="Lubowicki.pl">
   <main class="main-content">
     <section class="hero">
       <h1 class="glitch" data-text="LUBOWICKI.PL">LUBOWICKI.PL</h1>
-      <p class="subtitle">Electrical engineer, automation specialist, IoT and network enthusiast</p>
+      <p class="subtitle">{t.subtitle}</p>
     </section>
 
     <section class="section">
-      <h2 class="section-title">./blog</h2>
+      <h2 class="section-title">{t.blogTitle}</h2>
       <div class="grid-list">
         {latestPosts.map(post => (
           <TerminalCard post={post} collection="blog" />
         ))}
       </div>
       <div class="actions">
-        <a href="/en/blog" class="btn-link">See all posts <span class="arrow">→</span></a>
+        <a href={getRelativeLocaleUrl(currentLocale, '/blog')} class="btn-link">{t.blogAction} <span class="arrow">→</span></a>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">./projects</h2>
+      <h2 class="section-title">{t.projectsTitle}</h2>
       <div class="grid-list">
         {latestProjects.map(project => (
           <TerminalCard post={project} collection="projects" />
         ))}
       </div>
       <div class="actions">
-        <a href="/en/projects" class="btn-link">See all projects <span class="arrow">→</span></a>
+        <a href={getRelativeLocaleUrl(currentLocale, '/projects')} class="btn-link">{t.projectsAction} <span class="arrow">→</span></a>
       </div>
     </section>
   </main>

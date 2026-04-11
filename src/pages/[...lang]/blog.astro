@@ -1,18 +1,40 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import TerminalCard from '../components/TerminalCard.astro';
+import Layout from '../../layouts/Layout.astro';
+import TerminalCard from '../../components/TerminalCard.astro';
 import { getCollection } from 'astro:content';
+import { getI18nPaths } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return getI18nPaths();
+}
+
+const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'pl';
 
 const blogPosts = await getCollection('blog');
 // Sort by date descending
 blogPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const translations = {
+  pl: {
+    title: 'Blog',
+    header: './blog',
+    subtitle: 'Myśli, tutoriale i inne zapiski.',
+  },
+  en: {
+    title: 'Blog',
+    header: './blog',
+    subtitle: 'Thoughts, tutorials and other notes.',
+  }
+};
+
+const t = translations[currentLocale];
 ---
 
-<Layout title="Blog" pathname="/blog">
+<Layout title={t.title}>
     <main class="main-content">
         <header class="page-header">
-            <h1 class="page-title">./blog</h1>
-            <p class="page-subtitle">Myśli, tutoriale i inne zapiski.</p>
+            <h1 class="page-title">{t.header}</h1>
+            <p class="page-subtitle">{t.subtitle}</p>
         </header>
         <div class="grid-list">
             {blogPosts.map(post => (
