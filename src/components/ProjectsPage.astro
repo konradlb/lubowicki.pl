@@ -1,40 +1,26 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import TerminalCard from '../../components/TerminalCard.astro';
+import Layout from '../layouts/Layout.astro';
+import TerminalCard from './TerminalCard.astro';
 import { getCollection } from 'astro:content';
-import { getI18nPaths } from '../../i18n/utils';
 
-export function getStaticPaths() {
-  return getI18nPaths();
+interface Props {
+  title: string;
+  header: string;
+  subtitle: string;
 }
 
-const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'pl';
+const { title, header, subtitle } = Astro.props;
 
 const projects = await getCollection('projects');
 // Sort by date descending
 projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-const translations = {
-  pl: {
-    title: 'Projekty',
-    header: './projekty',
-    subtitle: 'Rzeczy, które zbudowałem po godzinach.',
-  },
-  en: {
-    title: 'Projects',
-    header: './projects',
-    subtitle: 'Things I built after hours.',
-  }
-};
-
-const t = translations[currentLocale];
 ---
 
-<Layout title={t.title}>
+<Layout title={title}>
     <main class="main-content">
         <header class="page-header">
-            <h1 class="page-title">{t.header}</h1>
-            <p class="page-subtitle">{t.subtitle}</p>
+            <h1 class="page-title">{header}</h1>
+            <p class="page-subtitle">{subtitle}</p>
         </header>
         <div class="grid-list">
             {projects.map(post => (

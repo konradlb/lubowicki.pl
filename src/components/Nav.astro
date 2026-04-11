@@ -11,32 +11,54 @@ const { pathname } = Astro.props;
 const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
 const t = useTranslations(currentLocale);
 
+// Map of asymmetric routes for the language switcher
+const routeMapping: Record<string, Record<string, string>> = {
+  '/projekty': { en: 'projects' },
+  '/projects': { pl: 'projekty' }
+};
+
 const navItems = [
     { path: '/blog', label: t('nav.blog'), icon: 'book' },
-    { path: '/projects', label: t('nav.projects'), icon: 'folderGit2' },
+    { path: currentLocale === 'pl' ? '/projekty' : '/projects', label: t('nav.projects'), icon: 'folderGit2' },
     { path: '/uses', label: t('nav.uses'), icon: 'cpu' },
     { path: '/about', label: t('nav.about'), icon: 'user' },
   ];
 
-// Helper to get localized path
-const getLocalizedPath = (path: string) => getRelativeLocaleUrl(currentLocale, path);
+// Helper to get localized path for navigation
+const getLocalizedPath = (path: string) => {
+    if (path.startsWith('/')) return getRelativeLocaleUrl(currentLocale, path);
+    return getRelativeLocaleUrl(currentLocale, path);
+};
 
 const isActive = (path: string) => {
     const localizedPath = getLocalizedPath(path);
     if (localizedPath === '/') {
       return pathname === '/' || pathname === '/pl' || pathname === '/pl/';
     }
-    return pathname.startsWith(localizedPath);
+    // Remove trailing slash for comparison
+    const cleanPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+    const cleanLocalizedPath = localizedPath.endsWith('/') ? localizedPath.slice(0, -1) : localizedPath;
+    return cleanPathname === cleanLocalizedPath || pathname.startsWith(localizedPath + '/');
 };
 
-// Function to get the current path without locale prefix for the switcher
-const getPathWithoutLocale = (path: string) => {
-  if (path.startsWith('/en/')) return path.replace('/en/', '/');
-  if (path === '/en') return '/';
-  return path;
+// Function to get the target path for the language switcher
+const getTargetLanguagePath = (targetLang: 'pl' | 'en') => {
+  // 1. Remove locale prefix if it exists
+  let purePath = pathname;
+  if (pathname.startsWith('/en/')) purePath = pathname.replace('/en/', '/');
+  else if (pathname === '/en') purePath = '/';
+  
+  // Remove trailing slash for mapping lookups
+  const lookupPath = purePath.endsWith('/') && purePath !== '/' ? purePath.slice(0, -1) : purePath;
+  
+  // 2. Check if there is a special mapping for this path
+  if (routeMapping[lookupPath] && routeMapping[lookupPath][targetLang]) {
+    return getRelativeLocaleUrl(targetLang, routeMapping[lookupPath][targetLang]);
+  }
+  
+  // 3. Default behavior (same path, different locale)
+  return getRelativeLocaleUrl(targetLang, purePath);
 };
-
-const basePagePath = getPathWithoutLocale(pathname);
 ---
 
 <nav class="navbar">
@@ -56,7 +78,7 @@ const basePagePath = getPathWithoutLocale(pathname);
               {navItems.map((item) => (
                 <a
                   key={item.path}
-                  href={getLocalizedPath(item.path)}
+                  href={item.path.startsWith('/') ? (currentLocale === 'pl' && item.path === '/projekty' ? '/projekty' : getLocalizedPath(item.path)) : getLocalizedPath(item.path)}
                   class:list={["nav-item", { "active": isActive(item.path) }]}
                 >
                   <Icon name={item.icon} size="16" class="nav-icon" />
@@ -67,11 +89,11 @@ const basePagePath = getPathWithoutLocale(pathname);
             {/* LanguageSwitcher */}
             <div class="language-switcher">
                 <a 
-                  href={getRelativeLocaleUrl('pl', basePagePath)} 
+                  href={getTargetLanguagePath('pl')} 
                   class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
                 >PL</a>
                 <a 
-                  href={getRelativeLocaleUrl('en', basePagePath)} 
+                  href={getTargetLanguagePath('en')} 
                   class:list={["lang-btn", { "active": currentLocale === 'en' }]}
                 >EN</a>
             </div>
@@ -105,11 +127,11 @@ const basePagePath = getPathWithoutLocale(pathname);
      {/* LanguageSwitcher for mobile */}
      <div class="language-switcher-mobile">
         <a 
-          href={getRelativeLocaleUrl('pl', basePagePath)} 
+          href={getTargetLanguagePath('pl')} 
           class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
         >PL</a>
         <a 
-          href={getRelativeLocaleUrl('en', basePagePath)} 
+          href={getTargetLanguagePath('en')} 
           class:list={["lang-btn", { "active": currentLocale === 'en' }]}
         >EN</a>
     </div>
