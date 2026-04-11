@@ -1,0 +1,68 @@
+---
+import { useTranslations, defaultLang } from '../i18n/utils';
+import type { ui } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title: propTitle,
+  description: propDescription,
+  image = "/favicon.svg",
+  type = "website"
+} = Astro.props;
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+
+const title = propTitle || t('site.title');
+const description = propDescription || t('site.description');
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://lubowicki.pl");
+
+// Schema.org (JSON-LD) configuration
+const schema = {
+  "@context": "https://schema.org",
+  "@type": type === 'article' ? 'BlogPosting' : 'WebSite',
+  "name": title,
+  "description": description,
+  "url": canonicalURL,
+  "author": {
+    "@type": "Person",
+    "name": "Konrad Lubowicki",
+    "url": "https://lubowicki.pl"
+  },
+  "image": new URL(image, Astro.site || "https://lubowicki.pl").toString(),
+};
+---
+
+<!-- Standard Meta Tags -->
+<title>{title}</title>
+<meta charset="UTF-8">
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content="#00ff00" />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site || "https://lubowicki.pl")} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.site || "https://lubowicki.pl")} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
