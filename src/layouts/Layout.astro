@@ -23,11 +23,7 @@ const currentLocale = Astro.currentLocale || 'pl';
 <!DOCTYPE html>
 <html lang={currentLocale}>
 	<head>
-		
 		<SEO {title} {description} {image} {type} />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
 	</head>
 	<body class="scanlines">
         <Nav pathname={Astro.url.pathname} /> {/* Add the Astro Nav component here */}

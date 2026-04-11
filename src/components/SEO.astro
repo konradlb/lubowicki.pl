@@ -19,9 +19,18 @@ const {
 const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
 const t = useTranslations(lang);
 
-const title = propTitle || t('site.title');
-const description = propDescription || t('site.description');
+// Check if current page is home page (either / or /en /en/)
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '/en' || pathname === '/en/';
 
+let title = propTitle || t('site.title');
+
+// Append suffix only if it's not the home page and a specific title was provided
+if (!isHome && propTitle) {
+  title = `${propTitle} | lubowicki.pl`;
+}
+
+const description = propDescription || t('site.description');
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://lubowicki.pl");
 
 // Schema.org (JSON-LD) configuration
@@ -40,15 +49,22 @@ const schema = {
 };
 ---
 
-<!-- Standard Meta Tags -->
-<title>{title}</title>
-<meta charset="UTF-8">
-<link rel="canonical" href={canonicalURL} />
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#00ff00" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
 <meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
