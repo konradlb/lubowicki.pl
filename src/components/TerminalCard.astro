@@ -26,9 +26,17 @@ const labels = {
 };
 
 const t = labels[currentLocale];
+
+// Dynamic URL generation for blog and projects
+let cardUrl = "";
+if (collection === 'blog') {
+  cardUrl = currentLocale === 'en' ? `/en/blog/${post.slug}` : `/blog/${post.slug}`;
+} else {
+  cardUrl = currentLocale === 'en' ? `/en/projects/${post.slug}` : `/projekty/${post.slug}`;
+}
 ---
 
-<a href={`/${collection}/${post.slug}`} class="terminal-card">
+<a href={cardUrl} class="terminal-card">
   <div class="card-glitch-bg"></div>
   
   <div class="card-meta">

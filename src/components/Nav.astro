@@ -43,15 +43,32 @@ const isActive = (path: string) => {
 
 // Function to get the target path for the language switcher
 const getTargetLanguagePath = (targetLang: 'pl' | 'en') => {
-  // 1. Remove locale prefix if it exists
+  // Handle home page first
+  if (pathname === '/' || pathname === '/en' || pathname === '/en/') {
+    return getRelativeLocaleUrl(targetLang, '/');
+  }
+
+  // Handle Blog posts: /blog/[slug] <-> /en/blog/[slug]
+  if (pathname.startsWith('/blog/') || pathname.startsWith('/en/blog/')) {
+    const slug = pathname.replace(/^\/(en\/)?blog\//, '');
+    return getRelativeLocaleUrl(targetLang, `blog/${slug}`);
+  }
+
+  // Handle Projects: /projekty/[slug] <-> /en/projects/[slug]
+  if (pathname.startsWith('/projekty/') || pathname.startsWith('/en/projects/')) {
+    const slug = pathname.replace(/^\/(en\/projects|projekty)\//, '');
+    const targetBase = targetLang === 'pl' ? 'projekty' : 'projects';
+    return getRelativeLocaleUrl(targetLang, `${targetBase}/${slug}`);
+  }
+  
+  // 1. Remove locale prefix if it exists for static routes
   let purePath = pathname;
   if (pathname.startsWith('/en/')) purePath = pathname.replace('/en/', '/');
-  else if (pathname === '/en') purePath = '/';
   
   // Remove trailing slash for mapping lookups
   const lookupPath = purePath.endsWith('/') && purePath !== '/' ? purePath.slice(0, -1) : purePath;
   
-  // 2. Check if there is a special mapping for this path
+  // 2. Check if there is a special mapping for this path (static routes)
   if (routeMapping[lookupPath] && routeMapping[lookupPath][targetLang]) {
     return getRelativeLocaleUrl(targetLang, routeMapping[lookupPath][targetLang]);
   }
