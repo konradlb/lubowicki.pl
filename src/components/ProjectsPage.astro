@@ -10,8 +10,12 @@ interface Props {
 }
 
 const { title, header, subtitle } = Astro.props;
+const currentLocale = Astro.currentLocale || 'pl';
 
-const projects = await getCollection('projects');
+const projects = await getCollection('projects', ({ data }) => {
+  return data.lang === currentLocale;
+});
+
 // Sort by date descending
 projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---

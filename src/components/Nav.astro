@@ -2,16 +2,19 @@
 import Icon from './Icon.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations } from '../i18n/utils';
+import { getCollection } from 'astro:content';
 
 interface Props {
   pathname: string;
+  contentId?: string;
+  collection?: 'blog' | 'projects';
 }
 
-const { pathname } = Astro.props;
+const { pathname, contentId, collection } = Astro.props;
 const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
 const t = useTranslations(currentLocale);
 
-// Map of asymmetric routes for the language switcher
+// Map of asymmetric routes for the language switcher (static routes)
 const routeMapping: Record<string, Record<string, string>> = {
   '/projekty': { en: 'projects' },
   '/projects': { pl: 'projekty' }
@@ -26,7 +29,6 @@ const navItems = [
 
 // Helper to get localized path for navigation
 const getLocalizedPath = (path: string) => {
-    if (path.startsWith('/')) return getRelativeLocaleUrl(currentLocale, path);
     return getRelativeLocaleUrl(currentLocale, path);
 };
 
@@ -35,47 +37,54 @@ const isActive = (path: string) => {
     if (localizedPath === '/') {
       return pathname === '/' || pathname === '/pl' || pathname === '/pl/';
     }
-    // Remove trailing slash for comparison
     const cleanPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
     const cleanLocalizedPath = localizedPath.endsWith('/') ? localizedPath.slice(0, -1) : localizedPath;
     return cleanPathname === cleanLocalizedPath || pathname.startsWith(localizedPath + '/');
 };
 
 // Function to get the target path for the language switcher
-const getTargetLanguagePath = (targetLang: 'pl' | 'en') => {
+const getTargetLanguagePath = async (targetLang: 'pl' | 'en') => {
   // Handle home page first
   if (pathname === '/' || pathname === '/en' || pathname === '/en/') {
     return getRelativeLocaleUrl(targetLang, '/');
   }
 
-  // Handle Blog posts: /blog/[slug] <-> /en/blog/[slug]
-  if (pathname.startsWith('/blog/') || pathname.startsWith('/en/blog/')) {
-    const slug = pathname.replace(/^\/(en\/)?blog\//, '');
-    return getRelativeLocaleUrl(targetLang, `blog/${slug}`);
+  // 1. Handle dynamic content by ID (linked translations)
+  if (contentId && collection) {
+    const entries = await getCollection(collection as any);
+    const translation = entries.find(entry => 
+      (entry.data as any).id === contentId && 
+      (entry.data as any).lang === targetLang
+    );
+    
+    if (translation) {
+      const base = collection === 'blog' ? 'blog' : (targetLang === 'pl' ? 'projekty' : 'projects');
+      return getRelativeLocaleUrl(targetLang, `${base}/${translation.slug}`);
+    }
   }
 
-  // Handle Projects: /projekty/[slug] <-> /en/projects/[slug]
-  if (pathname.startsWith('/projekty/') || pathname.startsWith('/en/projects/')) {
-    const slug = pathname.replace(/^\/(en\/projects|projekty)\//, '');
-    const targetBase = targetLang === 'pl' ? 'projekty' : 'projects';
-    return getRelativeLocaleUrl(targetLang, `${targetBase}/${slug}`);
+  // 2. Handle list pages (asymmetric static routes)
+  if (pathname.startsWith('/blog') || pathname.startsWith('/en/blog')) {
+    if (pathname === '/blog' || pathname === '/blog/' || pathname === '/en/blog' || pathname === '/en/blog/') {
+       return getRelativeLocaleUrl(targetLang, 'blog');
+    }
   }
-  
-  // 1. Remove locale prefix if it exists for static routes
+
+  // 3. Default static routing
   let purePath = pathname;
   if (pathname.startsWith('/en/')) purePath = pathname.replace('/en/', '/');
   
-  // Remove trailing slash for mapping lookups
   const lookupPath = purePath.endsWith('/') && purePath !== '/' ? purePath.slice(0, -1) : purePath;
   
-  // 2. Check if there is a special mapping for this path (static routes)
   if (routeMapping[lookupPath] && routeMapping[lookupPath][targetLang]) {
     return getRelativeLocaleUrl(targetLang, routeMapping[lookupPath][targetLang]);
   }
   
-  // 3. Default behavior (same path, different locale)
   return getRelativeLocaleUrl(targetLang, purePath);
 };
+
+const targetPlPath = await getTargetLanguagePath('pl');
+const targetEnPath = await getTargetLanguagePath('en');
 ---
 
 <nav class="navbar">
@@ -106,11 +115,11 @@ const getTargetLanguagePath = (targetLang: 'pl' | 'en') => {
             {/* LanguageSwitcher */}
             <div class="language-switcher">
                 <a 
-                  href={getTargetLanguagePath('pl')} 
+                  href={targetPlPath} 
                   class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
                 >PL</a>
                 <a 
-                  href={getTargetLanguagePath('en')} 
+                  href={targetEnPath} 
                   class:list={["lang-btn", { "active": currentLocale === 'en' }]}
                 >EN</a>
             </div>
@@ -132,23 +141,23 @@ const getTargetLanguagePath = (targetLang: 'pl' | 'en') => {
     {navItems.map((item) => (
         <a
           key={item.path}
-          href={getLocalizedPath(item.path)}
+          href={item.path.startsWith('/') ? (currentLocale === 'pl' && item.path === '/projekty' ? '/projekty' : getLocalizedPath(item.path)) : getLocalizedPath(item.path)}
           class:list={["mobile-nav-item", { "active": isActive(item.path) }]}
         >
             <div class="mobile-nav-content">
                 <Icon name={item.icon} size="16" style={{ marginRight: '0.75rem' }} />
-                {item.label[currentLocale as keyof typeof item.label]}
+                {item.label}
             </div>
         </a>
     ))}
      {/* LanguageSwitcher for mobile */}
      <div class="language-switcher-mobile">
         <a 
-          href={getTargetLanguagePath('pl')} 
+          href={targetPlPath} 
           class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
         >PL</a>
         <a 
-          href={getTargetLanguagePath('en')} 
+          href={targetEnPath} 
           class:list={["lang-btn", { "active": currentLocale === 'en' }]}
         >EN</a>
     </div>

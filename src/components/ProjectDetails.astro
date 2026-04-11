@@ -10,12 +10,16 @@ interface Props {
 const { entry, lang } = Astro.props;
 const { Content } = await render(entry);
 
-const title = entry.data.title[lang] || entry.data.title.pl;
+const title = entry.data.title;
 const backLink = lang === 'en' ? "/en/projects" : "/projekty";
 const backText = lang === 'en' ? "< BACK" : "< POWRÓT";
 ---
 
-<Layout title={title}>
+<Layout 
+  title={title}
+  contentId={entry.data.id}
+  collection="projects"
+>
   <main class="main-content">
     <article class="project-article">
       <header class="article-header">

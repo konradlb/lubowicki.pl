@@ -1,10 +1,8 @@
 ---
-title:
-  pl: "Portfolio lubowicki.pl"
-  en: "Portfolio lubowicki.pl"
-excerpt:
-  pl: "Kulisy budowy tej strony: dlaczego Astro, estetyka terminalowa i podejście 'Vanilla CSS first'."
-  en: "Behind the scenes of this site: why Astro, terminal aesthetics, and the 'Vanilla CSS first' approach."
+id: "p001"
+lang: "pl"
+title: "Portfolio lubowicki.pl"
+excerpt: "Kulisy budowy tej strony: dlaczego Astro, estetyka terminalowa i podejście 'Vanilla CSS first'."
 date: "2024-03-01"
 tags: ["Astro", "TypeScript", "Vanilla CSS", "Terminal UI"]
 category: "Projects"

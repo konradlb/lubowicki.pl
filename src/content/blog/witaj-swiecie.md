@@ -1,10 +1,8 @@
 ---
-title:
-  pl: "Witaj Świecie"
-  en: "Hello World"
-excerpt:
-  pl: "To jest pierwszy wpis na moim nowym blogu zbudowanym z użyciem Astro i MatrixTerm. Zapraszam do śledzenia!"
-  en: "This is the first post on my new blog built with Astro and MatrixTerm. Stay tuned!"
+id: "001"
+lang: "pl"
+title: "Witaj Świecie"
+excerpt: "To jest pierwszy wpis na moim nowym blogu zbudowanym z użyciem Astro i MatrixTerm. Zapraszam do śledzenia!"
 date: "2026-03-16"
 tags: ["Astro", "Blog"]
 category: "General"

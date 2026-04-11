@@ -8,12 +8,16 @@ export async function getStaticPaths() {
   const langs = getI18nPaths();
   
   return langs.flatMap(langObj => {
-    return posts.map(entry => ({
+    const lang = langObj.params.lang || 'pl';
+    // Filtrujemy tylko posty w danym języku dla danej ścieżki
+    const langPosts = posts.filter(post => post.data.lang === lang);
+    
+    return langPosts.map(entry => ({
       params: { 
         lang: langObj.params.lang,
         slug: entry.slug 
       },
-      props: { entry, lang: langObj.params.lang || 'pl' },
+      props: { entry, lang },
     }));
   });
 }
@@ -21,10 +25,15 @@ export async function getStaticPaths() {
 const { entry, lang } = Astro.props;
 const { Content } = await render(entry);
 
-const title = entry.data.title[lang as keyof typeof entry.data.title] || entry.data.title.pl;
+const title = entry.data.title;
 ---
 
-<Layout title={title} type="article">
+<Layout 
+  title={title} 
+  type="article"
+  contentId={entry.data.id}
+  collection="blog"
+>
   <main class="main-content">
     <article class="blog-article">
       <header class="article-header">

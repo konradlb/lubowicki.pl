@@ -8,9 +8,11 @@ export function getStaticPaths() {
   return getI18nPaths();
 }
 
-const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'pl';
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
 
-const blogPosts = await getCollection('blog');
+const blogPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === currentLocale;
+});
 // Sort by date descending
 blogPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 

@@ -16,8 +16,8 @@ const formattedDate = new Date(post.data.date).toLocaleDateString(currentLocale 
   day: 'numeric',
 });
 
-const title = post.data.title[currentLocale];
-const excerpt = post.data.excerpt[currentLocale];
+const title = post.data.title;
+const excerpt = post.data.excerpt;
 const readTime = Math.ceil(excerpt.length / 200);
 
 const labels = {

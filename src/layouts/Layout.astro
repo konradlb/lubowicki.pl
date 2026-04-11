@@ -9,13 +9,17 @@ interface Props {
 	description?: string;
 	image?: string;
 	type?: 'website' | 'article';
+	contentId?: string;
+	collection?: 'blog' | 'projects';
 }
 
 const { 
   title, 
   description, 
   image, 
-  type = 'website' 
+  type = 'website',
+  contentId,
+  collection
 } = Astro.props;
 const currentLocale = Astro.currentLocale || 'pl';
 ---
@@ -26,7 +30,7 @@ const currentLocale = Astro.currentLocale || 'pl';
 		<SEO {title} {description} {image} {type} />
 	</head>
 	<body class="scanlines">
-        <Nav pathname={Astro.url.pathname} /> {/* Add the Astro Nav component here */}
+        <Nav pathname={Astro.url.pathname} {contentId} {collection} /> {/* Add the Astro Nav component here */}
 		<slot />
         <Footer />
 	</body>

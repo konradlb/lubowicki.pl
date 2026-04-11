@@ -9,10 +9,10 @@ export function getStaticPaths() {
   return getI18nPaths();
 }
 
-const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'pl';
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
 
-const blogPosts = await getCollection('blog');
-const projects = await getCollection('projects');
+const blogPosts = await getCollection('blog', ({ data }) => data.lang === currentLocale);
+const projects = await getCollection('projects', ({ data }) => data.lang === currentLocale);
 
 // Sort by date descending
 blogPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
@@ -69,7 +69,7 @@ const t = translations[currentLocale];
         ))}
       </div>
       <div class="actions">
-        <a href={getRelativeLocaleUrl(currentLocale, '/projects')} class="btn-link">{t.projectsAction} <span class="arrow">→</span></a>
+        <a href={currentLocale === 'pl' ? '/projekty' : getRelativeLocaleUrl('en', '/projects')} class="btn-link">{t.projectsAction} <span class="arrow">→</span></a>
       </div>
     </section>
   </main>
