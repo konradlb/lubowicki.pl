@@ -6,7 +6,15 @@ import cloudflare from '@astrojs/cloudflare';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
+  compressHTML: false,
   adapter: cloudflare({
     imageService: 'compile'
-  })
+  }),
+  i18n: {
+    defaultLocale: 'pl',
+    locales: ['pl', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  }
 });

@@ -1,36 +1,101 @@
 ---
-import Icon from './Icon.astro'; // Assuming Icon.astro exists and works as previously discussed
+import Icon from './Icon.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '../i18n/utils';
+import { getCollection } from 'astro:content';
 
 interface Props {
   pathname: string;
+  contentId?: string;
+  collection?: 'blog' | 'projects';
 }
 
-const { pathname } = Astro.props;
+const { pathname, contentId, collection } = Astro.props;
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
+const t = useTranslations(currentLocale);
+
+// Map of asymmetric routes for the language switcher (static routes)
+const routeMapping: Record<string, Record<string, string>> = {
+  '/projekty': { en: 'projects' },
+  '/projects': { pl: 'projekty' }
+};
 
 const navItems = [
-    { path: '/', label: { pl: '~/blog', en: '~/blog' }, icon: 'terminal' },
-    { path: '/projects', label: { pl: './projekty', en: './projects' }, icon: 'folderGit2' },
-    { path: '/uses', label: { pl: '/uses', en: '/uses' }, icon: 'cpu' },
-    { path: '/about', label: { pl: 'whoami', en: 'whoami' }, icon: 'user' },
+    { path: '/blog', label: t('nav.blog'), icon: 'book' },
+    { path: currentLocale === 'pl' ? '/projekty' : '/projects', label: t('nav.projects'), icon: 'folderGit2' },
+    { path: '/uses', label: t('nav.uses'), icon: 'cpu' },
+    { path: '/about', label: t('nav.about'), icon: 'user' },
   ];
 
-const isActive = (path: string) => {
-    if (path === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(path);
+// Helper to get localized path for navigation
+const getLocalizedPath = (path: string) => {
+    return getRelativeLocaleUrl(currentLocale, path);
 };
+
+const isActive = (path: string) => {
+    const localizedPath = getLocalizedPath(path);
+    if (localizedPath === '/') {
+      return pathname === '/' || pathname === '/pl' || pathname === '/pl/';
+    }
+    const cleanPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+    const cleanLocalizedPath = localizedPath.endsWith('/') ? localizedPath.slice(0, -1) : localizedPath;
+    return cleanPathname === cleanLocalizedPath || pathname.startsWith(localizedPath + '/');
+};
+
+// Function to get the target path for the language switcher
+const getTargetLanguagePath = async (targetLang: 'pl' | 'en') => {
+  // Handle home page first
+  if (pathname === '/' || pathname === '/en' || pathname === '/en/') {
+    return getRelativeLocaleUrl(targetLang, '/');
+  }
+
+  // 1. Handle dynamic content by ID (linked translations)
+  if (contentId && collection) {
+    const entries = await getCollection(collection as any);
+    const translation = entries.find(entry => 
+      (entry.data as any).id === contentId && 
+      (entry.data as any).lang === targetLang
+    );
+    
+    if (translation) {
+      const base = collection === 'blog' ? 'blog' : (targetLang === 'pl' ? 'projekty' : 'projects');
+      return getRelativeLocaleUrl(targetLang, `${base}/${translation.slug}`);
+    }
+  }
+
+  // 2. Handle list pages (asymmetric static routes)
+  if (pathname.startsWith('/blog') || pathname.startsWith('/en/blog')) {
+    if (pathname === '/blog' || pathname === '/blog/' || pathname === '/en/blog' || pathname === '/en/blog/') {
+       return getRelativeLocaleUrl(targetLang, 'blog');
+    }
+  }
+
+  // 3. Default static routing
+  let purePath = pathname;
+  if (pathname.startsWith('/en/')) purePath = pathname.replace('/en/', '/');
+  
+  const lookupPath = purePath.endsWith('/') && purePath !== '/' ? purePath.slice(0, -1) : purePath;
+  
+  if (routeMapping[lookupPath] && routeMapping[lookupPath][targetLang]) {
+    return getRelativeLocaleUrl(targetLang, routeMapping[lookupPath][targetLang]);
+  }
+  
+  return getRelativeLocaleUrl(targetLang, purePath);
+};
+
+const targetPlPath = await getTargetLanguagePath('pl');
+const targetEnPath = await getTargetLanguagePath('en');
 ---
 
 <nav class="navbar">
     <div class="navbar-container">
         
         {/* Logo */}
-        <a href="/" class="logo-link">
+        <a href={getRelativeLocaleUrl(currentLocale, '/')} class="logo-link">
             <div class="logo-box">
               <span class="logo-cursor" />
             </div>
-            <span class="logo-text">dev@matrix:~$</span>
+            <span class="logo-text">root@lubowicki.pl:~$</span>
         </a>
 
         {/* Desktop Menu */}
@@ -39,18 +104,24 @@ const isActive = (path: string) => {
               {navItems.map((item) => (
                 <a
                   key={item.path}
-                  href={item.path}
+                  href={item.path.startsWith('/') ? (currentLocale === 'pl' && item.path === '/projekty' ? '/projekty' : getLocalizedPath(item.path)) : getLocalizedPath(item.path)}
                   class:list={["nav-item", { "active": isActive(item.path) }]}
                 >
                   <Icon name={item.icon} size="16" class="nav-icon" />
-                  {item.label['pl']} {/* Hardcoding 'pl' for now, will be dynamic */}
+                  {item.label}
                 </a>
               ))}
             </div>
-            {/* Simplified LanguageSwitcher */}
+            {/* LanguageSwitcher */}
             <div class="language-switcher">
-                <button id="lang-pl" class="lang-btn active">PL</button>
-                <button id="lang-en" class="lang-btn">EN</button>
+                <a 
+                  href={targetPlPath} 
+                  class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
+                >PL</a>
+                <a 
+                  href={targetEnPath} 
+                  class:list={["lang-btn", { "active": currentLocale === 'en' }]}
+                >EN</a>
             </div>
         </div>
 
@@ -65,40 +136,41 @@ const isActive = (path: string) => {
 
 </nav>
 
-{/* Mobile Menu (now a sibling of navbar) */}
+{/* Mobile Menu */}
 <div id="mobile-menu" class="mobile-menu hidden">
     {navItems.map((item) => (
         <a
           key={item.path}
-          href={item.path}
+          href={item.path.startsWith('/') ? (currentLocale === 'pl' && item.path === '/projekty' ? '/projekty' : getLocalizedPath(item.path)) : getLocalizedPath(item.path)}
           class:list={["mobile-nav-item", { "active": isActive(item.path) }]}
         >
             <div class="mobile-nav-content">
                 <Icon name={item.icon} size="16" style={{ marginRight: '0.75rem' }} />
-                {item.label['pl']} {/* Hardcoding 'pl' for now, will be dynamic */}
+                {item.label}
             </div>
         </a>
     ))}
-     {/* Simplified LanguageSwitcher for mobile */}
+     {/* LanguageSwitcher for mobile */}
      <div class="language-switcher-mobile">
-        <button id="lang-pl-mobile" class="lang-btn active">PL</button>
-        <button id="lang-en-mobile" class="lang-btn">EN</button>
+        <a 
+          href={targetPlPath} 
+          class:list={["lang-btn", { "active": currentLocale === 'pl' }]}
+        >PL</a>
+        <a 
+          href={targetEnPath} 
+          class:list={["lang-btn", { "active": currentLocale === 'en' }]}
+        >EN</a>
     </div>
 </div>
 
 <style>
-    /* Use the same styles as in the React component, ensuring global CSS variables are used */
+   /* Use the same styles as in the React component, ensuring global CSS variables are used */
     .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 50;
-        background-color: var(--color-bg-dim);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+        background-color: var(--color-bg);
         border-bottom: 1px solid var(--color-dim);
         height: var(--header-height);
+        z-index: 50;
+        position: relative;
     }
 
     .navbar-container {
@@ -193,7 +265,7 @@ const isActive = (path: string) => {
         cursor: pointer;
         transition: all 0.2s;
         font-size: 0.875rem;
-    }
+}
     .lang-btn:hover {
         border-color: var(--color-matrix);
         color: var(--color-matrix);
@@ -246,9 +318,10 @@ const isActive = (path: string) => {
         font-weight: 500;
         color: var(--color-dim);
         margin-bottom: 2px;
-        text-decoration: none;
+        text-decoration: none;        text-decoration: none;
+        display: inline-block;
     }
-    .mobile-nav-item.active {
+.mobile-nav-item.active {
         background-color: var(--color-matrix);
         color: var(--color-bg);
     }
@@ -278,16 +351,11 @@ const isActive = (path: string) => {
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileNavItems = document.querySelectorAll('#mobile-menu .mobile-nav-item');
-        const langPlBtn = document.getElementById('lang-pl');
-        const langEnBtn = document.getElementById('lang-en');
-        const langPlMobileBtn = document.getElementById('lang-pl-mobile');
-        const langEnMobileBtn = document.getElementById('lang-en-mobile');
 
         const menuIcon = document.querySelector('.menu-icon');
         const xIcon = document.querySelector('.x-icon');
 
         let isMobileMenuOpen = false;
-        let currentLanguage = 'pl'; // Default language
 
         const updateMobileMenu = () => {
             if (mobileMenu) {
@@ -296,7 +364,6 @@ const isActive = (path: string) => {
                 } else {
                     mobileMenu.classList.add('hidden');
                 }
-                // Update menu icon based on state
                 if (menuIcon && xIcon) {
                     if (isMobileMenuOpen) {
                         menuIcon.classList.add('hidden');
@@ -308,19 +375,6 @@ const isActive = (path: string) => {
                 }
             }
         };
-
-        const updateLanguageButtons = () => {
-            [langPlBtn, langPlMobileBtn].forEach(btn => {
-                if (btn) btn.classList.toggle('active', currentLanguage === 'pl');
-            });
-            [langEnBtn, langEnMobileBtn].forEach(btn => {
-                if (btn) btn.classList.toggle('active', currentLanguage === 'en');
-            });
-            // Here you would also update the displayed labels for navItems
-            // This would require re-rendering or direct DOM manipulation of text content
-            // For now, we'll keep the labels static as per the requirement "Docelowo użyję Nano Stores"
-        };
-
 
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
@@ -335,21 +389,5 @@ const isActive = (path: string) => {
                 updateMobileMenu();
             });
         });
-
-        // Language switcher logic
-        if (langPlBtn) {
-            langPlBtn.addEventListener('click', () => { currentLanguage = 'pl'; updateLanguageButtons(); });
-        }
-        if (langEnBtn) {
-            langEnBtn.addEventListener('click', () => { currentLanguage = 'en'; updateLanguageButtons(); });
-        }
-        if (langPlMobileBtn) {
-            langPlMobileBtn.addEventListener('click', () => { currentLanguage = 'pl'; updateLanguageButtons(); });
-        }
-        if (langEnMobileBtn) {
-            langEnMobileBtn.addEventListener('click', () => { currentLanguage = 'en'; updateLanguageButtons(); });
-        }
-
-        updateLanguageButtons(); // Set initial active state for language buttons
     });
 </script>

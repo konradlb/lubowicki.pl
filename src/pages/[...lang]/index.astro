@@ -1,0 +1,183 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TerminalCard from '../../components/TerminalCard.astro';
+import { getCollection } from 'astro:content';
+import { getI18nPaths } from '../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+export function getStaticPaths() {
+  return getI18nPaths();
+}
+
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
+
+const blogPosts = await getCollection('blog', ({ data }) => data.lang === currentLocale);
+const projects = await getCollection('projects', ({ data }) => data.lang === currentLocale);
+
+// Sort by date descending
+blogPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Take only latest 3 of each for homepage
+const latestPosts = blogPosts.slice(0, 3);
+const latestProjects = projects.slice(0, 3);
+
+const translations = {
+  pl: {
+    subtitle: 'Inżynier elektryk, automatyk, pasjonat rozwiązań IoT i sieci',
+    blogTitle: './blog',
+    blogAction: 'Zobacz wszystkie wpisy',
+    projectsTitle: './projekty',
+    projectsAction: 'Zobacz wszystkie projekty',
+  },
+  en: {
+    subtitle: 'Electrical engineer, automation specialist, IoT and network enthusiast',
+    blogTitle: './blog',
+    blogAction: 'See all posts',
+    projectsTitle: './projects',
+    projectsAction: 'See all projects',
+  }
+};
+
+const t = translations[currentLocale];
+---
+
+<Layout title="Lubowicki.pl">
+  <main class="main-content">
+    <section class="hero">
+      <h1 class="glitch" data-text="LUBOWICKI.PL">LUBOWICKI.PL</h1>
+      <p class="subtitle">{t.subtitle}</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">{t.blogTitle}</h2>
+      <div class="grid-list">
+        {latestPosts.map(post => (
+          <TerminalCard post={post} collection="blog" />
+        ))}
+      </div>
+      <div class="actions">
+        <a href={getRelativeLocaleUrl(currentLocale, '/blog')} class="btn-link">{t.blogAction} <span class="arrow">→</span></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">{t.projectsTitle}</h2>
+      <div class="grid-list">
+        {latestProjects.map(project => (
+          <TerminalCard post={project} collection="projects" />
+        ))}
+      </div>
+      <div class="actions">
+        <a href={currentLocale === 'pl' ? '/projekty' : getRelativeLocaleUrl('en', '/projects')} class="btn-link">{t.projectsAction} <span class="arrow">→</span></a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hero {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .glitch {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--color-matrix);
+    position: relative;
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    animation: glitch 500ms infinite;
+  }
+
+  @keyframes glitch {
+    0% {
+      text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                  -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                  0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    14% {
+      text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                  -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                  0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    15% {
+      text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                  0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                  -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    49% {
+      text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                  0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                  -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    50% {
+      text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                  0.05em 0 0 rgba(0, 255, 0, 0.75),
+                  0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    99% {
+      text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                  0.05em 0 0 rgba(0, 255, 0, 0.75),
+                  0 -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+    100% {
+      text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                  -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+                  -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+    }
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light);
+    font-family: var(--font-mono);
+    margin-top: var(--spacing-sm);
+  }
+
+  .section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-dim);
+    padding-bottom: var(--spacing-xs);
+  }
+
+  .grid-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .actions {
+    margin-top: var(--spacing-lg);
+    text-align: right;
+  }
+
+  .btn-link {
+    color: var(--color-matrix);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn-link:hover {
+    color: var(--color-white);
+  }
+
+  .btn-link:hover .arrow {
+    padding-left: 5px;
+  }
+
+  .arrow {
+    transition: padding 0.2s ease;
+  }
+</style>

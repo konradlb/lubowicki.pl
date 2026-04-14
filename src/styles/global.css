@@ -1,28 +1,30 @@
 :root {
   /* Design Tokens */
-  --color-bg: #0D0D0D;
+  --color-bg: #0d0d0d;
   --color-bg-dim: rgba(13, 13, 13, 0.9);
   --color-dark: #001a00;
-  --color-matrix: #00FF41;
-  --color-dim: #008F11;
-  --color-light: #D3FBD8;
+  --color-matrix: #00ff41;
+  --color-dim: #008f11;
+  --color-light: #d3fbd8;
   --color-white: #ffffff;
   --color-gray: #9ca3af;
-  
-  --font-mono: 'Fira Code', monospace;
+
+  --font-mono: "Fira Code", monospace;
   --font-sans: system-ui, -apple-system, sans-serif;
-  
+
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  
+
   --container-width: 56rem; /* ok. 896px */
   --header-height: 4rem;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -38,29 +40,55 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--color-dark); }
-::-webkit-scrollbar-thumb { background: var(--color-dim); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-matrix); }
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dim);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-matrix);
+}
 
-/* Efekt CRT Scanlines */
+/* CRT Scanlines */
 .scanlines::before {
   content: " ";
   display: block;
   position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
   z-index: 40;
-  background-size: 100% 2px, 3px 100%;
+  background-size:
+    100% 2px,
+    3px 100%;
   pointer-events: none;
 }
 
 /* Utility Classes */
-.text-matrix { color: var(--color-matrix); }
-.text-dim { color: var(--color-dim); }
-.text-white { color: var(--color-white); }
+.text-matrix {
+  color: var(--color-matrix);
+}
+.text-dim {
+  color: var(--color-dim);
+}
+.text-white {
+  color: var(--color-white);
+}
 .main-content {
-  padding-top: calc(var(--header-height) + 2rem);
+  padding-top: 2rem;
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
@@ -68,13 +96,26 @@ body {
   z-index: 60;
 }
 
-/* Animacje */
- @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+/* Animations */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
- @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}

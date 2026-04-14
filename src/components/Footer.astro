@@ -1,0 +1,151 @@
+---
+import Icon from './Icon.astro';
+import { useTranslations } from '../i18n/utils';
+
+const currentYear = new Date().getFullYear();
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
+const t = useTranslations(currentLocale);
+---
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-left">
+            <span class="status-box">
+                <span class="status-dot"></span>
+                <span class="status-text">{t('footer.status')}</span>
+                <span class="cursor">_</span>
+            </span>
+        </div>
+
+        <div class="footer-center">
+            <p class="copyright">
+                &copy; {currentYear} lubowicki.pl
+                <span class="separator">|</span>
+                {t('footer.built_with')} <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="astro-link">Astro</a>
+            </p>
+        </div>
+        
+        <div class="footer-right">
+            <div class="social-links">
+                <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <Icon name="github" size="20" />
+                </a>
+                <a href="https://linkedin.com/in/your-username" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <Icon name="linkedin" size="20" />
+                </a>
+                <a href="mailto:your@email.com" aria-label="Email">
+                    <Icon name="mail" size="20" />
+                </a>
+                <a href="/rss.xml" aria-label="RSS">
+                    <Icon name="rss" size="20" />
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        width: 100%;
+        border-top: 1px solid var(--color-dim);
+        background-color: var(--color-bg);
+        padding: 2rem 0;
+        margin-top: 4rem;
+    }
+
+    .footer-container {
+        max-width: var(--container-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+        .footer-container {
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 0;
+        }
+        .footer-left, .footer-center, .footer-right {
+            flex: 1;
+        }
+        .footer-center {
+            display: flex;
+            justify-content: center;
+        }
+        .footer-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    /* Status Box */
+    .status-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--color-matrix);
+        font-weight: bold;
+    }
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-matrix);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--color-matrix);
+        animation: pulse 2s infinite;
+    }
+    .cursor {
+        animation: blink 1.5s infinite;
+    }
+
+    /* Social Links */
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+    .social-links a {
+        color: var(--color-dim);
+        transition: all 0.2s;
+    }
+    .social-links a:hover {
+        color: var(--color-matrix);
+        transform: translateY(-2px);
+    }
+
+    /* Copyright & Astro Link */
+    .copyright {
+        font-size: 0.875rem;
+        color: var(--color-gray);
+        margin: 0;
+        white-space: nowrap;
+    }
+    .separator {
+        margin: 0 0.5rem;
+        color: var(--color-dim);
+    }
+    .astro-link {
+        color: var(--color-matrix);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .astro-link:hover {
+        color: var(--color-white);
+        text-decoration: underline;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>

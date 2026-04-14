@@ -1,25 +1,30 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 
-export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+interface Props {
+  entry: any;
+  lang: 'pl' | 'en';
 }
 
-const { entry } = Astro.props;
+const { entry, lang } = Astro.props;
 const { Content } = await render(entry);
+
+const title = entry.data.title;
+const backLink = lang === 'en' ? "/en/projects" : "/projekty";
+const backText = lang === 'en' ? "< BACK" : "< POWRÓT";
 ---
 
-<Layout title={entry.data.title.pl}>
+<Layout 
+  title={title}
+  contentId={entry.data.id}
+  collection="projects"
+>
   <main class="main-content">
     <article class="project-article">
       <header class="article-header">
-        <a href="/projects" class="back-link">&lt; POWRÓT</a>
-        <h1 class="article-title">{entry.data.title.pl}</h1>
+        <a href={backLink} class="back-link">{backText}</a>
+        <h1 class="article-title">{title}</h1>
         <div class="article-meta">
           <time datetime={entry.data.date}>{entry.data.date}</time>
           <span class="category">{entry.data.category}</span>

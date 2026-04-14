@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const currentLocale = Astro.currentLocale || 'pl';
+
+const translations = {
+  pl: {
+    title: '404 - Nie odnaleziono',
+    errorCode: 'ERR_RESOURCE_NOT_FOUND',
+    message: 'Żądany zasób nie istnieje lub został przeniesiony do innej lokalizacji.',
+    instruction: 'Spróbuj wrócić do bezpiecznego węzła:',
+    backHome: 'Powrót do strony głównej'
+  },
+  en: {
+    title: '404 - Not Found',
+    errorCode: 'ERR_RESOURCE_NOT_FOUND',
+    message: 'The requested resource does not exist or has been moved to another location.',
+    instruction: 'Try returning to a secure node:',
+    backHome: 'Back to home page'
+  }
+};
+
+const t = translations[currentLocale as keyof typeof translations] || translations.pl;
+---
+
+<Layout title={t.title}>
+  <main class="main-content error-page">
+    <div class="terminal-error">
+      <div class="error-header">
+        <span class="status-dot"></span>
+        <span class="error-code">{t.errorCode}</span>
+      </div>
+      <div class="error-body">
+        <h1 class="error-number">404</h1>
+        <p class="error-message">{t.message}</p>
+        <div class="terminal-prompt">
+          <p class="instruction">{t.instruction}</p>
+          <a href={getRelativeLocaleUrl(currentLocale, '/')} class="back-link">
+            <span class="prompt-user">root@lubowicki.pl</span>:<span class="prompt-dir">~</span>$ cd /home/<span class="cursor">_</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+  }
+
+  .terminal-error {
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(0, 20, 0, 0.8);
+    border: 1px solid var(--color-matrix);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .error-header {
+    background-color: var(--color-matrix);
+    color: var(--color-bg);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-bg);
+    border-radius: 50%;
+    animation: blink 1s infinite;
+  }
+
+  .error-body {
+    padding: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .error-number {
+    font-size: 6rem;
+    color: var(--color-matrix);
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    font-family: var(--font-mono);
+  }
+
+  .error-message {
+    color: var(--color-light);
+    font-size: 1.1rem;
+    margin: var(--spacing-md) 0 var(--spacing-xl);
+    line-height: 1.5;
+  }
+
+  .terminal-prompt {
+    text-align: left;
+    background-color: var(--color-dark);
+    padding: var(--spacing-md);
+    border-radius: 2px;
+    border-left: 3px solid var(--color-matrix);
+  }
+
+  .instruction {
+    color: var(--color-dim);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .back-link {
+    display: block;
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+  }
+
+  .prompt-user { color: var(--color-matrix); }
+  .prompt-dir { color: #3b82f6; }
+
+  .cursor {
+    display: inline-block;
+    background-color: var(--color-matrix);
+    width: 10px;
+    height: 1.2rem;
+    vertical-align: middle;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .error-number { font-size: 4rem; }
+    .error-message { font-size: 1rem; }
+  }
+</style>

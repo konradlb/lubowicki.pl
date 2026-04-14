@@ -1,0 +1,84 @@
+---
+import { useTranslations, defaultLang } from '../i18n/utils';
+import type { ui } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title: propTitle,
+  description: propDescription,
+  image = "/favicon.svg",
+  type = "website"
+} = Astro.props;
+
+const lang = (Astro.currentLocale || defaultLang) as keyof typeof ui;
+const t = useTranslations(lang);
+
+// Check if current page is home page (either / or /en /en/)
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '/en' || pathname === '/en/';
+
+let title = propTitle || t('site.title');
+
+// Append suffix only if it's not the home page and a specific title was provided
+if (!isHome && propTitle) {
+  title = `${propTitle} | lubowicki.pl`;
+}
+
+const description = propDescription || t('site.description');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://lubowicki.pl");
+
+// Schema.org (JSON-LD) configuration
+const schema = {
+  "@context": "https://schema.org",
+  "@type": type === 'article' ? 'BlogPosting' : 'WebSite',
+  "name": title,
+  "description": description,
+  "url": canonicalURL,
+  "author": {
+    "@type": "Person",
+    "name": "Konrad Lubowicki",
+    "url": "https://lubowicki.pl"
+  },
+  "image": new URL(image, Astro.site || "https://lubowicki.pl").toString(),
+};
+---
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+<meta name="theme-color" content="#00ff00" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site || "https://lubowicki.pl")} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.site || "https://lubowicki.pl")} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

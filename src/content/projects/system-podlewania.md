@@ -1,10 +1,8 @@
 ---
-title:
-  pl: "Inteligentny system podlewania ogrodu"
-  en: "Smart Garden Watering System"
-excerpt:
-  pl: "Automatyczny system nawadniania ogrodu z kontrolą pogodową i zdalnym sterowaniem."
-  en: "Automatic garden irrigation system with weather control and remote management."
+id: "p004"
+lang: "pl"
+title: "Inteligentny system podlewania ogrodu"
+excerpt: "Automatyczny system nawadniania ogrodu z kontrolą pogodową i zdalnym sterowaniem."
 date: "2023-05-10"
 tags: ["IoT", "Automation", "Gardening"]
 category: "Projects"

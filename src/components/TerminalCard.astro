@@ -4,20 +4,39 @@ import Icon from './Icon.astro';
 
 interface Props {
   post: Post;
+  collection?: 'projects' | 'blog';
 }
 
-const { post } = Astro.props;
+const { post, collection = 'projects' } = Astro.props;
+const currentLocale = (Astro.currentLocale || 'pl') as 'pl' | 'en';
 
-const formattedDate = new Date(post.data.date).toLocaleDateString('pl-PL', {
+const formattedDate = new Date(post.data.date).toLocaleDateString(currentLocale === 'pl' ? 'pl-PL' : 'en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
 
-const readTime = Math.ceil(post.data.excerpt.pl.length / 200); // Estimate read time based on excerpt length
+const title = post.data.title;
+const excerpt = post.data.excerpt;
+const readTime = Math.ceil(excerpt.length / 200);
+
+const labels = {
+  pl: { readTime: 'min czytania', readMore: 'Czytaj dalej' },
+  en: { readTime: 'min read', readMore: 'Read more' }
+};
+
+const t = labels[currentLocale];
+
+// Dynamic URL generation for blog and projects
+let cardUrl = "";
+if (collection === 'blog') {
+  cardUrl = currentLocale === 'en' ? `/en/blog/${post.slug}` : `/blog/${post.slug}`;
+} else {
+  cardUrl = currentLocale === 'en' ? `/en/projects/${post.slug}` : `/projekty/${post.slug}`;
+}
 ---
 
-<a href={`/projects/${post.slug}`} class="terminal-card">
+<a href={cardUrl} class="terminal-card">
   <div class="card-glitch-bg"></div>
   
   <div class="card-meta">
@@ -25,13 +44,13 @@ const readTime = Math.ceil(post.data.excerpt.pl.length / 200); // Estimate read 
       <Icon name="calendar" size="14" /> {formattedDate}
     </span>
     <span class="read-time">
-      <Icon name="clock" size="14" /> {readTime} min czytania
+      <Icon name="clock" size="14" /> {readTime} {t.readTime}
     </span>
   </div>
 
-  <h2 class="card-title">{post.data.title.pl}</h2>
+  <h2 class="card-title">{title}</h2>
   
-  <p class="card-excerpt">{post.data.excerpt.pl}</p>
+  <p class="card-excerpt">{excerpt}</p>
   
   <div class="card-footer">
     <div class="tags">
@@ -42,7 +61,7 @@ const readTime = Math.ceil(post.data.excerpt.pl.length / 200); // Estimate read 
       ))}
     </div>
     <div class="read-more">
-      Czytaj dalej <Icon name="arrowRight" size="16" />
+      {t.readMore} <Icon name="arrowRight" size="16" />
     </div>
   </div>
 </a>
