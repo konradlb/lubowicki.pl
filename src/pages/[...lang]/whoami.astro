@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TerminalFrame from '../../components/TerminalFrame.astro';
+import { getI18nPaths } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return getI18nPaths();
+}
+
+const currentLang = Astro.currentLocale === 'en' ? 'en' : 'pl';
+
+const content = {
+  pl: {
+    title: 'whoami',
+    header: 'whoami',
+    subtitle: 'Inicjalizacja profilu użytkownika...',
+    terminalTitle: 'root@lubowicki.pl:~$',
+    commandPrompt: 'root@lubowicki.pl:~$',
+    catCommand: 'whoami',
+    greeting: 'Cześć, jestem Konrad.',
+    description: 'Jestem inżynierem elektrykiem z przeszło 10-letnim doświadczeniem w elektroenergetyce, automatyce, telekomunikacji i IT. Szczególnie interesuje mnie infrastruktura Data Center – od energetyki, przez światłowody, po serwery.',
+    doingTitle: 'Co robiłem zawodowo?',
+    doingItems: [
+      {
+        label: 'Telekomunikacja & Data Center:',
+        text: 'Montaż sieci FTTH, spawanie światłowodów, pomiary OTDR, montaż osprzętu telekomunikacyjnego. Inżynier Centrum Danych.'
+      },
+      {
+        label: 'Elektrotechnika',
+        text: 'Instalacje rozdzielnic nN/SN, serwis UPS, systemy p.poż. i automatyki, inżynier robót elektrycznych, inżynier prototypowni zespołów bateryjnych HV.'
+      },
+      {
+        label: 'Własna działalność',
+        text: 'Przeglądy i pomiary instalacji, diagnostyka awarii, automatyka budynkowa i sieci komputerowe.'
+      },
+      {
+        label: 'IT & Programowanie',
+        text: 'Programista ReactJS, frontend (HTML/CSS/JS), administracja Wordpress, Linux/Proxmox'
+      },
+
+    ],
+    diyTitle: 'Projekty DIY',
+    diyText: 'W domu samodzielnie zbudowałem system nawadniania, sterowniki pieca i nawadniania, instalację fotowoltaiczną z magazynem energii oraz homelab oparty na Proxmox.',
+    philosophyTitle: 'Filozofia pracy',
+    philosophyText: 'W pracy wychodzę z założenia, że nie ma zadań niemożliwych – są tylko takie, które mogą zająć więcej czasu na analizę lub naukę nowych narzędzi. Stawiam na skrupulatność i odpowiedzialność za wynik, transparentną komunikację oraz na to, by rozwiązanie było nie tylko „działające dziś”, ale też niezawodne i łatwe w utrzymaniu w dłuższej perspektywie. Wierzę w podejście „Vanilla First” – zarówno w kodzie, technice, jak i w życiu – dlatego cenię proste, zrozumiałe i niezawodne rozwiązania, które da się łatwo utrzymać i rozwijać w dłuższej perspektywie'
+  },
+  en: {
+    title: 'whoami',
+    header: 'whoami',
+    subtitle: 'Initializing user profile...',
+    terminalTitle: 'root@lubowicki.pl:~$',
+    commandPrompt: 'root@lubowicki.pl:~$',
+    catCommand: 'whoami',
+    greeting: "Hi, I'm Konrad.",
+    description: 'I am an electrical engineer with over 10 years of experience in power engineering, automation, telecommunications, and IT. I am particularly interested in Data Center infrastructure – from power systems and fiber optics to servers.',
+    doingTitle: 'Professional experience',
+    doingItems: [
+      {
+        label: 'Telecommunications & Data Center:',
+        text: 'FTTH network installation, fiber splicing, OTDR measurements, telecom equipment mounting. Data Center Engineer.'
+      },
+      {
+        label: 'Electrical Engineering:',
+        text: 'LV/MV switchgear installations, UPS servicing, fire alarm and automation systems, electrical works engineer, HV battery pack prototyping engineer.'
+      },
+      {
+        label: 'Private Practice:',
+        text: 'Installation inspections and measurements, fault diagnostics, building automation, and computer networks.'
+      },
+      {
+        label: 'IT & Programming:',
+        text: 'ReactJS Developer, frontend (HTML/CSS/JS), WordPress administration, Linux/Proxmox.'
+      }
+    ],
+    diyTitle: 'DIY Projects',
+    diyText: 'At home, I built an irrigation system, furnace and irrigation controllers, a photovoltaic installation with energy storage, and a Proxmox-based homelab.',
+    philosophyTitle: 'Work Philosophy',
+    philosophyText: 'In my work, I assume that there are no impossible tasks – only those that may take more time for analysis or learning new tools. I focus on meticulousness and responsibility for the outcome, transparent communication, and ensuring that the solution is not only "working today" but also reliable and easy to maintain in the long run. I believe in the "Vanilla First" approach – in code, technology, and life – which is why I value simple, understandable, and reliable solutions that are easy to maintain and develop over the long term.'
+  }
+};
+
+const t = content[currentLang];
+---
+
+<Layout title={t.title}>
+  <main class="main-content animate-fadeIn">
+    <header class="page-header">
+      <h1 class="page-title">{t.header}</h1>
+      <p class="page-subtitle">{t.subtitle}</p>
+    </header>
+
+    <TerminalFrame title={t.terminalTitle} class="max-w-900">
+      <div class="terminal-body-content">
+        <div class="terminal-line">
+          <span class="prompt">{t.commandPrompt}</span> <span class="command">{t.catCommand}</span>
+        </div>
+        
+        <div class="profile-content">
+          <h2 class="matrix-text">{t.greeting}</h2>
+          <p class="description-text">{t.description}</p>
+          
+          <h3 class="matrix-text">{t.doingTitle}</h3>
+          <ul>
+            {t.doingItems.map(item => (
+              <li><strong>{item.label}</strong> {item.text}</li>
+            ))}
+          </ul>
+
+          <h3 class="matrix-text">{t.diyTitle}</h3>
+          <p>{t.diyText}</p>
+
+          <h3 class="matrix-text">{t.philosophyTitle}</h3>
+          <p>{t.philosophyText}</p>
+        </div>
+
+        <div class="terminal-line">
+          <span class="prompt">{t.commandPrompt}</span> <span class="cursor">█</span>
+        </div>
+      </div>
+    </TerminalFrame>
+  </main>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--spacing-xl);
+  }
+  .page-title {
+    font-size: 3rem;
+    color: var(--color-matrix);
+    margin-bottom: var(--spacing-sm);
+  }
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-light);
+  }
+
+  .max-w-900 {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .terminal-line {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .prompt {
+    color: var(--color-matrix);
+    font-weight: bold;
+  }
+
+  .command {
+    color: var(--color-white);
+  }
+
+  .matrix-text {
+    color: var(--color-matrix);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    padding-bottom: 4px;
+    margin-top: var(--spacing-lg);
+    font-size: 1.4rem;
+  }
+
+  .description-text {
+    color: var(--color-light);
+    line-height: 1.6;
+    margin-top: var(--spacing-md);
+    font-size: 1.1rem;
+  }
+
+  .profile-content ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .profile-content li {
+    margin-bottom: var(--spacing-md);
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-light);
+  }
+
+  .profile-content li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--color-matrix);
+  }
+
+  .profile-content p {
+    color: var(--color-light);
+    line-height: 1.6;
+  }
+
+  .cursor {
+    animation: blink 1s infinite;
+    color: var(--color-matrix);
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
