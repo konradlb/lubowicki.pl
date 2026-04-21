@@ -14,53 +14,68 @@ const content = {
     title: 'whoami',
     header: 'whoami',
     subtitle: 'Inicjalizacja profilu użytkownika...',
-    terminalTitle: 'profile.sh — 80x24',
-    commandPrompt: 'dev@matrix:~$',
-    catCommand: 'cat user_profile.md',
+    terminalTitle: 'root@lubowicki.pl:~$',
+    commandPrompt: 'root@lubowicki.pl:~$',
+    catCommand: 'whoami',
     greeting: 'Cześć, jestem Konrad.',
-    doingTitle: 'Co robię?',
+    description: 'Jestem inżynierem elektrykiem z przeszło 10-letnim doświadczeniem w elektroenergetyce, automatyce, telekomunikacji i IT. Szczególnie interesuje mnie infrastruktura Data Center – od energetyki, przez światłowody, po serwery.',
+    doingTitle: 'Co robiłem zawodowo?',
     doingItems: [
       {
-        label: 'Hardware & Networking:',
-        text: 'Zarządzam rozbudowanym Home Labem opartym na serwerach SuperMicro oraz urządzeniach Mikrotik (L009, AX2, AX S). Sieci to dla mnie nie tylko połączenia, ale architektura, którą stale optymalizuję.'
+        label: 'Telekomunikacja & Data Center:',
+        text: 'Montaż sieci FTTH, spawanie światłowodów, pomiary OTDR, montaż osprzętu telekomunikacyjnego. Inżynier Centrum Danych.'
       },
       {
-        label: 'Automatyka:',
-        text: 'Tworzę inteligentne rozwiązania domowe oparte o system SUPLA, integrując elektronikę z codzienną wygodą.'
+        label: 'Elektrotechnika',
+        text: 'Instalacje rozdzielnic nN/SN, serwis UPS, systemy p.poż. i automatyki, inżynier robót elektrycznych, inżynier prototypowni zespołów bateryjnych HV.'
       },
       {
-        label: 'Software:',
-        text: 'Na co dzień korzystam z Linux Mint, a moje narzędzia pracy to VS Code, Docker i Git. Buduję projekty, które są szybkie, proste i funkcjonalne – dokładnie tak jak ta strona.'
-      }
+        label: 'Własna działalność',
+        text: 'Przeglądy i pomiary instalacji, diagnostyka awarii, automatyka budynkowa i sieci komputerowe.'
+      },
+      {
+        label: 'IT & Programowanie',
+        text: 'Programista ReactJS, frontend (HTML/CSS/JS), administracja Wordpress, Linux/Proxmox'
+      },
+
     ],
+    diyTitle: 'Projekty DIY',
+    diyText: 'W domu samodzielnie zbudowałem system nawadniania, sterowniki pieca i nawadniania, instalację fotowoltaiczną z magazynem energii oraz homelab oparty na Proxmox.',
     philosophyTitle: 'Filozofia pracy',
-    philosophyText: 'Wierzę w podejście "Vanilla First" – zarówno w kodzie, jak i w życiu. Cenię proste, niezawodne rozwiązania, które dają pełną kontrolę nad systemem. Moje portfolio to zapis drogi od prostych skryptów po złożone systemy automatyki domowej.'
+    philosophyText: 'W pracy wychodzę z założenia, że nie ma zadań niemożliwych – są tylko takie, które mogą zająć więcej czasu na analizę lub naukę nowych narzędzi. Stawiam na skrupulatność i odpowiedzialność za wynik, transparentną komunikację oraz na to, by rozwiązanie było nie tylko „działające dziś”, ale też niezawodne i łatwe w utrzymaniu w dłuższej perspektywie. Wierzę w podejście „Vanilla First” – zarówno w kodzie, technice, jak i w życiu – dlatego cenię proste, zrozumiałe i niezawodne rozwiązania, które da się łatwo utrzymać i rozwijać w dłuższej perspektywie'
   },
   en: {
     title: 'whoami',
     header: 'whoami',
     subtitle: 'Initializing user profile...',
-    terminalTitle: 'profile.sh — 80x24',
-    commandPrompt: 'dev@matrix:~$',
-    catCommand: 'cat user_profile.md',
+    terminalTitle: 'root@lubowicki.pl:~$',
+    commandPrompt: 'root@lubowicki.pl:~$',
+    catCommand: 'whoami',
     greeting: "Hi, I'm Konrad.",
-    doingTitle: 'What do I do?',
+    description: 'I am an electrical engineer with over 10 years of experience in power engineering, automation, telecommunications, and IT. I am particularly interested in Data Center infrastructure – from power systems and fiber optics to servers.',
+    doingTitle: 'Professional experience',
     doingItems: [
       {
-        label: 'Hardware & Networking:',
-        text: 'I manage an extensive Home Lab based on SuperMicro servers and Mikrotik devices (L009, AX2, AX S). Networking for me is not just connections, but an architecture I constantly optimize.'
+        label: 'Telecommunications & Data Center:',
+        text: 'FTTH network installation, fiber splicing, OTDR measurements, telecom equipment mounting. Data Center Engineer.'
       },
       {
-        label: 'Automation:',
-        text: 'I create smart home solutions based on the SUPLA system, integrating electronics with daily convenience.'
+        label: 'Electrical Engineering:',
+        text: 'LV/MV switchgear installations, UPS servicing, fire alarm and automation systems, electrical works engineer, HV battery pack prototyping engineer.'
       },
       {
-        label: 'Software:',
-        text: 'Daily I use Linux Mint, and my tools of trade are VS Code, Docker, and Git. I build projects that are fast, simple, and functional – exactly like this website.'
+        label: 'Private Practice:',
+        text: 'Installation inspections and measurements, fault diagnostics, building automation, and computer networks.'
+      },
+      {
+        label: 'IT & Programming:',
+        text: 'ReactJS Developer, frontend (HTML/CSS/JS), WordPress administration, Linux/Proxmox.'
       }
     ],
+    diyTitle: 'DIY Projects',
+    diyText: 'At home, I built an irrigation system, furnace and irrigation controllers, a photovoltaic installation with energy storage, and a Proxmox-based homelab.',
     philosophyTitle: 'Work Philosophy',
-    philosophyText: 'I believe in the "Vanilla First" approach – both in code and in life. I value simple, reliable solutions that give full control over the system. My portfolio is a record of my journey from simple scripts to complex home automation systems.'
+    philosophyText: 'In my work, I assume that there are no impossible tasks – only those that may take more time for analysis or learning new tools. I focus on meticulousness and responsibility for the outcome, transparent communication, and ensuring that the solution is not only "working today" but also reliable and easy to maintain in the long run. I believe in the "Vanilla First" approach – in code, technology, and life – which is why I value simple, understandable, and reliable solutions that are easy to maintain and develop over the long term.'
   }
 };
 
@@ -82,6 +97,7 @@ const t = content[currentLang];
         
         <div class="profile-content">
           <h2 class="matrix-text">{t.greeting}</h2>
+          <p class="description-text">{t.description}</p>
           
           <h3 class="matrix-text">{t.doingTitle}</h3>
           <ul>
@@ -89,6 +105,9 @@ const t = content[currentLang];
               <li><strong>{item.label}</strong> {item.text}</li>
             ))}
           </ul>
+
+          <h3 class="matrix-text">{t.diyTitle}</h3>
+          <p>{t.diyText}</p>
 
           <h3 class="matrix-text">{t.philosophyTitle}</h3>
           <p>{t.philosophyText}</p>
@@ -140,6 +159,13 @@ const t = content[currentLang];
     padding-bottom: 4px;
     margin-top: var(--spacing-lg);
     font-size: 1.4rem;
+  }
+
+  .description-text {
+    color: var(--color-light);
+    line-height: 1.6;
+    margin-top: var(--spacing-md);
+    font-size: 1.1rem;
   }
 
   .profile-content ul {
