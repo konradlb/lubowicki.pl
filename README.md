@@ -18,30 +18,35 @@ The site serves as a portfolio and a place to share knowledge about programming 
 To run the project locally on your machine, follow these steps:
 
 ### 1. Clone the repository
+
 ```bash
-git clone [LINK_DO_REPOZYTORIUM]
+git clone git@github.com:konradlb/lubowicki.pl.git
 cd lubowicki.pl
 ```
 
 ### 2. Install dependencies
+
 Ensure you have Node.js installed.
+
 ```bash
 npm install
 ```
 
 ### 3. Start the development server
+
 ```bash
 npm run dev
 ```
+
 The site will be available at: `http://localhost:4321`
 
 ## 📦 Useful Commands
 
-| Command | Description |
-| :--- | :--- |
-| `npm run build` | Build the production version to the `./dist/` folder |
-| `npm run preview` | Preview the built production version locally |
-| `npm run astro ...` | Direct Astro CLI calls (e.g., `astro check`) |
+| Command             | Description                                          |
+| :------------------ | :--------------------------------------------------- |
+| `npm run build`     | Build the production version to the `./dist/` folder |
+| `npm run preview`   | Preview the built production version locally         |
+| `npm run astro ...` | Direct Astro CLI calls (e.g., `astro check`)         |
 
 ## 📄 License
 
