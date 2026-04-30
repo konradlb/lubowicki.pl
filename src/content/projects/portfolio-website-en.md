@@ -37,6 +37,14 @@ Instead of reaching for popular libraries like Tailwind CSS or UI components, I 
 
 ## Architecture and Development
 
-The site is fully static (SSG), which guarantees security and ease of hosting. The whole thing was written in **TypeScript**, which minimizes the risk of errors during the development of new functionalities.
+The site was designed using **SSG (Static Site Generation)** architecture, which guarantees the highest level of security and performance. The entire project is written in **TypeScript**, minimizing the risk of errors and simplifying code maintenance.
 
-Every element of the site – from icons (`Icon.astro` component) to project cards (`TerminalCard.astro`) – has been designed to support a consistent vision of a modern terminal that is not only effective, but above all functional.
+To ensure lightning-fast access from anywhere in the world, the site is hosted on the **Cloudflare** platform. By leveraging their global **CDN (Content Delivery Network)**, the site's files are physically replicated across hundreds of locations at the network edge (Edge). This means that every visitor downloads data from the server closest to them, reducing latency to a minimum and providing nearly instantaneous content loading.
+
+## Internationalization Challenges
+
+Implementing full multi-language support (i18n) was one of the most interesting technical challenges in this project.
+
+- **Asymmetric Routing:** Using different paths for the same content (e.g., `/projekty` vs `/en/projects`) required creating intelligent mapping logic in the navigation component.
+- **Content Linking:** Each article and project now has a unique `id`, allowing the language switcher to instantly find its counterpart in another language, even if they have completely different slugs.
+- **Dynamic Filtering:** Lists of projects and blog posts are now automatically filtered by the `lang` field, which prevents language duplicates and ensures visual consistency on the home page.
