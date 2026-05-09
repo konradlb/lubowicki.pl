@@ -89,4 +89,34 @@ const backText = lang === 'en' ? "< BACK" : "< POWRÓT";
   /* Style for Markdown content */
   .article-content :global(h2) { color: var(--color-matrix); margin-top: 2rem; }
   .article-content :global(p) { margin-bottom: 1.2rem; }
+  .article-content :global(ul) { margin-bottom: 1.2rem; padding-left: 1.5rem; }
+  .article-content :global(li) { margin-bottom: 0.5rem; }
+
+  /* Table Styles */
+  .article-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+    border: 1px solid var(--color-dim);
+  }
+  .article-content :global(th) {
+    background-color: var(--color-dark);
+    color: var(--color-matrix);
+    text-align: left;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-dim);
+    text-transform: uppercase;
+  }
+  .article-content :global(td) {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-dim);
+    color: var(--color-light);
+  }
+  .article-content :global(tr:nth-child(even)) {
+    background-color: rgba(0, 143, 17, 0.05);
+  }
+  .article-content :global(tr:hover) {
+    background-color: rgba(0, 255, 65, 0.1);
+  }
 </style>
