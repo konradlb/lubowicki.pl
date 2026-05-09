@@ -48,3 +48,11 @@ Implementing full multi-language support (i18n) was one of the most interesting 
 - **Asymmetric Routing:** Using different paths for the same content (e.g., `/projekty` vs `/en/projects`) required creating intelligent mapping logic in the navigation component.
 - **Content Linking:** Each article and project now has a unique `id`, allowing the language switcher to instantly find its counterpart in another language, even if they have completely different slugs.
 - **Dynamic Filtering:** Lists of projects and blog posts are now automatically filtered by the `lang` field, which prevents language duplicates and ensures visual consistency on the home page.
+
+## Metrics and performance (Build Log)
+
+Monitoring performance and output size helps maintain the lightweight nature of the site. Below is a log of changes in key parameters when building the production version.
+
+| Date | Build Time | Number of Files | `dist` Size | JS Bundle | CSS Bundle | LCP (Mobile) | LCP (Desktop) | Astro Version |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| May 2026 | 2.33s | 100 | 1.1 MB | 0 KB | 7.0 KB | 2.6s | 0.7s | 5.7.6 |

@@ -48,3 +48,11 @@ Wdrożenie pełnej obsługi wielu języków (i18n) było jednym z najciekawszych
 - **Asymetryczny Routing:** Zastosowanie różnych ścieżek dla tych samych treści (np. `/projekty` vs `/en/projects`) wymagało stworzenia inteligentnej logiki mapowania w komponencie nawigacji.
 - **Powiązania Treści:** Każdy artykuł i projekt posiada teraz unikalny identyfikator `id`, który pozwala przełącznikowi języka na błyskawiczne odnalezienie odpowiednika w innym języku, nawet jeśli mają zupełnie inne slugi.
 - **Dynamiczne Filtrowanie:** Listy projektów i wpisów blogowych są teraz automatycznie filtrowane po polu `lang`, co zapobiega wyświetlaniu duplikatów językowych i zapewnia spójność wizualną strony głównej.
+
+## Metryki i wydajność (Build Log)
+
+Monitorowanie wydajności i rozmiaru wyjściowego pozwala utrzymać lekki charakter strony. Poniżej znajduje się log zmian kluczowych parametrów przy budowaniu wersji produkcyjnej.
+
+| Data | Czas budowy | Liczba plików | Rozmiar `dist` | JS Bundle | CSS Bundle | LCP (Mobile) | LCP (Desktop) | Wersja Astro |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Maj 2026 | 2.33s | 100 | 1.1 MB | 0 KB | 7.0 KB | 2.6s | 0.7s | 5.7.6 |
