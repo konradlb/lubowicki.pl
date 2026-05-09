@@ -1,5 +1,5 @@
 {
-  "name": "test-lubowicki-pl",
+  "name": "lubowicki-pl",
   "compatibility_date": "2026-02-28",
   "main": "dist/_worker.js/index.js",
   "assets": {
